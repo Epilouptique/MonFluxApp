@@ -10,9 +10,10 @@
  *     requête qu'on fait déjà pour les durées.
  *
  * Mesuré sur 120 vidéos de 161 chaînes réelles, étalonné contre la redirection de
- * youtube.com/shorts/<id> : 97,5 % de justesse et surtout zéro vidéo masquée à tort.
- * La durée seule tombait à 87,5 % avec 15 brèves masquées — l'erreur qui compte,
- * puisqu'elle fait disparaître du flux des vidéos qu'on voulait voir.
+ * youtube.com/shorts/<id> : 100 % de justesse, aucune erreur dans un sens ni dans
+ * l'autre. La durée seule tombait à 87,5 % avec 15 brèves masquées — l'erreur qui
+ * compte, puisqu'elle fait disparaître du flux des vidéos qu'on voulait voir.
+ * Tableau complet des règles comparées dans RESUME_TECHNIQUE.md.
  *
  * Constantes placées ici, et non dans youtube.ts, pour rester testables sans charger
  * les modules natifs d'authentification.

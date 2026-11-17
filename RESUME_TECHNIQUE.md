@@ -47,17 +47,27 @@ contre une vérité terrain : `youtube.com/shorts/<id>` répond 200 pour un Shor
 | --- | --- | --- | --- |
 | durée ≤ 180 s | 87,5 % | **15** | 0 |
 | durée ≤ 60 s | 68,3 % | 7 | 31 |
-| vertical seul | 95,8 % | 2 | 3 |
-| **vertical ET ≤ 180 s** | **97,5 %** | **0** | 3 |
-| vertical ET ≤ 60 s | 73,3 % | 0 | 32 |
+| rapport < 1.00 seul | 95,8 % | 2 | 3 |
+| rapport < 1.00 ET ≤ 180 s | 97,5 % | 0 | 3 |
+| rapport < 1.00 ET ≤ 60 s | 73,3 % | 0 | 32 |
+| **rapport ≤ 1.00 ET ≤ 180 s** | **100 %** | **0** | **0** |
+| rapport ≤ 1.05 ET ≤ 180 s | 100 % | 0 | 0 |
 
 Retenu : `classerShort()` dans `src/format.ts`. Les deux erreurs ne se valent pas —
 un Short qui passe est une nuisance, une brève masquée est une information perdue,
 donc on optimise d'abord les « masquées à tort ». En cas de doute (durée ou format
 inconnus), la fonction renvoie `null` et **la vidéo reste visible**.
 
-Les trois Shorts manqués avaient un rapport d'exactement 1.00 (vidéos carrées), d'où
-`SEUIL_RAPPORT = 1` avec une comparaison `<=`.
+Le passage de `<` à `<=` vient des trois seuls désaccords restants : des Shorts
+**carrés**, de rapport exactement 1.00. D'où `SEUIL_RAPPORT = 1` avec comparaison
+large, qui atteint 100 % sur l'échantillon.
+
+Tolérance à 1.05 écartée : elle donne le même résultat (aucune vidéo observée entre
+1.00 et 1.05), donc elle n'apporte rien et élargit inutilement le risque de masquer
+une vidéo presque carrée.
+
+Ces chiffres valent pour les 161 chaînes suivies en novembre 2026. Si le flux change
+beaucoup, `npm run sonde:shorts` refait la mesure en une minute.
 
 **Piège de l'étalonnage** : sans en-têtes de navigateur ni cookie `CONSENT=YES+1`,
 `youtube.com/shorts/<id>` renvoie 302 vers `consent.youtube.com` pour *toutes* les
