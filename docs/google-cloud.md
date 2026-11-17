@@ -9,16 +9,22 @@ Deux identifiants clients distincts, dans **le même** projet Google Cloud.
 2. « API et services » → « Bibliothèque » → activer **YouTube Data API v3**.
 3. « Écran de consentement OAuth » :
    - type **Externe** (un type « Interne » exige un compte Workspace) ;
-   - application en mode **Test** : il suffit d'ajouter ton adresse Google dans
-     « Utilisateurs de test ». Aucune validation Google n'est nécessaire tant que
-     l'application n'est pas publiée au grand public ;
    - champ d'application à ajouter : `.../auth/youtube.readonly` et rien d'autre.
 
-> En mode Test, le jeton de rafraîchissement expire au bout de **7 jours**. C'est
-> acceptable pour la mise au point ; pour un usage quotidien durable il faudra passer
-> l'écran de consentement en **Production** (publication possible sans vérification
-> Google tant qu'on reste sur un champ d'application non sensible — à confirmer pour
-> `youtube.readonly`, voir `RESUME_TECHNIQUE.md`, risques ouverts).
+### État au 17/11/2026 : publié en Production
+
+Propriété de `dahu-concept.fr` vérifiée dans Search Console, politique de
+confidentialité en ligne sur
+`https://dahu-concept.fr/references/mon-flux/confidentialite/`, application publiée.
+
+> Le mode **Test** fait expirer le jeton de rafraîchissement au bout de **7 jours** et
+> n'autorise que les comptes déclarés testeurs. C'est pour cela qu'on en est sorti :
+> en Production, la session tient dans la durée et n'importe quel compte peut se
+> connecter.
+>
+> `youtube.readonly` restant un champ **sensible**, la vérification Google n'est pas
+> acquise pour autant : écran « application non vérifiée » à la première connexion de
+> chaque utilisateur, et plafond de 100 utilisateurs. Voir `docs/app-store.md`.
 
 ## 2. Identifiant client « Application de bureau » — pour la sonde
 

@@ -107,17 +107,50 @@ Pièges rencontrés :
 - **Expo Go ne convient pas** : son URL de retour est refusée par Google. Il faut un
   build de développement EAS dès la phase 1.
 - Écran de consentement en mode « Test » : jeton de rafraîchissement expirant au bout
-  de 7 jours. À basculer en « Production » pour un usage durable.
+  de 7 jours. **Réglé le 17/11/2026** : l'application est publiée en Production, la
+  session tient donc dans la durée. La vérification Google du champ sensible
+  `youtube.readonly` reste à obtenir (voir `docs/app-store.md`).
 
 ## Lecteur
 
-IFrame Player API dans une `WebView` (WKWebView sur iOS), page HTML locale servie avec
-`baseUrl: https://www.youtube.com` — l'API IFrame refuse une origine `about:blank`.
-Le lecteur n'est **pas** modifié : commandes, sous-titres, plein écran, publicités et
-recommandations de fin restent en place. On écoute seulement `onStateChange` pour
-marquer la vidéo comme vue dès le début de la lecture.
+IFrame Player API dans une `WebView` (WKWebView sur iOS), page HTML locale. Le lecteur
+officiel est conservé : commandes, publicités et recommandations de fin restent en
+place. On écoute `onStateChange` pour marquer la vidéo comme vue dès la lecture.
 
-`setSupportMultipleWindows={false}` évite que les liens du lecteur remplacent la page.
+Quatre pièges, tous découverts sur l'appareil et tous coûteux :
+
+1. **L'origine ne doit surtout pas être `youtube.com`.** Servie avec
+   `baseUrl: https://www.youtube.com`, la page du lecteur se retrouve sur la même
+   origine que l'intégration qu'elle contient, ce qui autorise celle-ci à rediriger
+   la WebView entière vers `m.youtube.com`. Symptômes : erreur « 152-4 », titre du
+   site mobile visible sous la vidéo, cadrage coupé, et une lecture qui se produit
+   en réalité sur le site mobile. On sert donc depuis `https://dahu-concept.fr`,
+   valeur reprise dans le paramètre `origin` du lecteur.
+2. **L'iframe doit être forcée à 100 %** en CSS : l'API la crée en 640×390, elle
+   déborde alors du cadre.
+3. **La navigation hors du lecteur est interdite** (`onShouldStartLoadWithRequest`) :
+   sans cela, un lien du lecteur emmène la WebView sur le site mobile. Les liens
+   partent dans l'application YouTube ou Safari.
+4. **Les sous-titres** : `cc_load_policy: 0` ne suffit pas quand le compte YouTube
+   les impose. Il faut `unloadModule('captions')` à l'événement `onReady`.
+
+Le son est rétabli (`unMute`) au passage en lecture : iOS n'autorise un démarrage
+automatique qu'en sourdine.
+
+### Plein écran
+
+Celui de YouTube repose sur l'API de plein écran du navigateur, que WKWebView refuse
+à une page embarquée : le bouton ne faisait rien. Il est donc masqué (`fs: 0`) —
+offrir deux commandes dont une inopérante donne l'impression que l'application est
+cassée — et remplacé par le nôtre, qui agrandit le cadre et le **pivote d'un quart de
+tour** pour une vraie image en paysage. Faire tourner l'appareil demanderait
+`expo-screen-orientation`, donc un module natif et un nouveau build. Un Short n'est
+pas pivoté : il est déjà vertical.
+
+Attention au cadre d'un Short : un `aspectRatio` 9/16 combiné à un `maxHeight` perd
+ses proportions dès que le plafond s'applique, et la vidéo se retrouve réduite et
+collée à gauche. La hauteur est calculée d'abord, la largeur en découle, et le cadre
+est centré.
 
 ## Risques ouverts
 

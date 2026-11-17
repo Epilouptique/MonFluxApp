@@ -1,20 +1,27 @@
 # App Store Connect — champs prêts à coller
 
-## Avant toute soumission : deux obstacles à lever
+## Avant toute soumission
 
-### 1. L'écran de consentement Google doit être vérifié
+### 1. Écran de consentement Google — publié le 17/11/2026
 
-`youtube.readonly` est un **champ d'application sensible**. En mode « Test », seuls
-les comptes inscrits comme testeurs peuvent se connecter : **l'examinateur Apple ne
-pourra pas ouvrir l'application**, et le refus est automatique.
+Fait : propriété de `dahu-concept.fr` vérifiée dans Search Console, politique de
+confidentialité en ligne sur
+`https://dahu-concept.fr/references/mon-flux/confidentialite/`, application publiée
+en Production. Conséquence directe : **le jeton de rafraîchissement n'expire plus au
+bout de 7 jours**, et n'importe quel compte Google peut se connecter.
 
-Passer en « Production » sans vérification Google limite à 100 utilisateurs et affiche
-un avertissement « application non vérifiée » à chaque connexion. La vérification
-complète suppose un domaine prouvé, une politique de confidentialité en ligne et une
-vidéo de démonstration ; elle prend de quelques jours à plusieurs semaines.
+**Ce qui reste** : `youtube.readonly` est un champ d'application sensible, et la
+vérification Google proprement dite n'est pas faite. Tant qu'elle ne l'est pas,
+chaque nouvel utilisateur voit un écran « Google n'a pas validé cette application »
+qu'il doit contourner par « Paramètres avancés », et le nombre d'utilisateurs est
+plafonné à 100.
 
-Sans elle, l'application reste parfaitement utilisable — mais en usage personnel ou
-en diffusion restreinte (TestFlight), pas sur l'App Store.
+Pour un usage personnel et pour TestFlight, c'est sans conséquence. Pour l'App Store,
+c'est un risque réel : l'examinateur Apple tombera sur cet écran. Il peut passer
+outre, mais il peut aussi considérer que l'application ne fonctionne pas. Deux
+parades : demander la vérification Google (bouton sur la même page que la
+publication ; il faut une vidéo de démonstration), ou décrire précisément le
+contournement dans les notes d'examen — ce que fait le texte plus bas.
 
 ### 2. Les règles de l'API YouTube
 
@@ -43,7 +50,7 @@ tranché ces deux points.** Les champs ci-dessous sont prêts pour le jour où.
 | Droits d'auteur | `2026 Hugo Vial-Jaime — Dahu-Concept` |
 | URL d'assistance | `https://dahu-concept.fr` |
 | URL marketing | `https://dahu-concept.fr` |
-| Politique de confidentialité | **à créer** : `https://dahu-concept.fr/monflux/confidentialite` |
+| Politique de confidentialité | `https://dahu-concept.fr/references/mon-flux/confidentialite/` |
 
 ## Mots-clés (100 caractères, séparés par des virgules, sans espaces)
 
@@ -105,10 +112,17 @@ Première version.
 
 ```
 L'application nécessite un compte Google disposant d'abonnements YouTube.
+Un compte de démonstration est fourni ci-dessous.
 
-Compte de démonstration fourni ci-dessous. La connexion passe par l'écran Google
-officiel ; si une validation en deux étapes est demandée, merci de nous contacter à
-contact@dahu-concept.fr, nous la validerons en direct.
+IMPORTANT — Google affiche un écran d'avertissement avant la connexion, car la
+vérification de notre application auprès de Google est en cours. Pour passer cet
+écran : touchez « Paramètres avancés » en bas à gauche, puis « Accéder à Mon Flux
+(non sécurisé) ». La connexion se déroule ensuite normalement. Cet avertissement
+disparaîtra une fois la vérification Google obtenue ; il ne reflète aucun problème
+de sécurité, l'application demandant uniquement un accès en lecture seule.
+
+Si une validation en deux étapes est demandée, merci de nous contacter à
+contact@dahu-concept.fr, nous la validerons en direct pendant l'examen.
 
 L'application lit les abonnements en lecture seule (champ youtube.readonly), affiche
 les nouvelles vidéos par date, et les lit dans le lecteur YouTube officiel intégré,
