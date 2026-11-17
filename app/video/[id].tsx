@@ -255,13 +255,24 @@ export default function Lecteur() {
             }}
           />
         ) : null}
-        {/* Sortie du plein écran : le seul élément que nous superposons au lecteur,
-            placé dans le cadre pivoté pour rester en haut à gauche de l'image. */}
+        {/* Les deux seuls éléments que nous superposons au lecteur. Ils vivent dans
+            le cadre, donc ils suivent la rotation du plein écran et restent lisibles.
+            Retour en haut à gauche, plein écran en bas à droite : les emplacements
+            attendus, ceux de tous les lecteurs vidéo. */}
+        <Pressable
+          onPress={() => router.back()}
+          hitSlop={16}
+          style={[s.commande, s.retour]}
+          accessibilityLabel="Revenir à la liste"
+          accessibilityRole="button"
+        >
+          <Ionicons name="chevron-back" size={28} color="#FFF" />
+        </Pressable>
         {pleinEcran ? (
           <Pressable
             onPress={quitterPleinEcran}
             hitSlop={16}
-            style={s.sortie}
+            style={[s.commande, s.sortie]}
             accessibilityLabel="Quitter le plein écran"
             accessibilityRole="button"
           >
@@ -355,14 +366,14 @@ const s = StyleSheet.create({
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 20, rowGap: 12, marginTop: 8 },
   action: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   actionTexte: { color: T.texte, fontSize: 14 },
-  sortie: {
+  commande: {
     position: 'absolute',
-    top: 12,
-    left: 12,
     padding: 11,
     borderRadius: 25,
     backgroundColor: 'rgba(0,0,0,0.55)',
   },
+  retour: { top: 12, left: 12 },
+  sortie: { bottom: 12, right: 12 },
   agrandir: {
     flexDirection: 'row',
     alignItems: 'center',
