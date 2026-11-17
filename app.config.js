@@ -70,8 +70,11 @@ module.exports = {
     experiments: { typedRoutes: true },
     extra: {
       googleIosClientId: CLIENT_ID_IOS,
-      eas: { projectId: process.env.EAS_PROJECT_ID || undefined },
+      // Projet EAS @dahuconcept/monflux. L'identifiant n'est pas un secret (il figure
+      // dans les builds) ; il est écrit ici parce qu'une configuration dynamique ne
+      // peut pas être renseignée automatiquement par « eas init ».
+      eas: { projectId: process.env.EAS_PROJECT_ID || '28c98e4c-9e9d-4620-bdea-11ab3b425532' },
     },
-    owner: process.env.EXPO_OWNER || undefined,
+    owner: process.env.EXPO_OWNER || 'dahuconcept',
   },
 };
