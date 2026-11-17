@@ -24,7 +24,7 @@ module.exports = {
     scheme: 'monflux',
     // Version affichée. Le buildNumber est géré par EAS (appVersionSource « remote » dans
     // eas.json) : app.config.js est dynamique, EAS ne peut pas l'y réécrire.
-    version: '0.1.0',
+    version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
