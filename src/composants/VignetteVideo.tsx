@@ -26,7 +26,11 @@ export default function VignetteVideo({ video, onOuvrir, onEnregistrer }: Props)
     >
       <View style={s.zoneImage}>
         {video.miniature ? (
-          <Image source={{ uri: video.miniature }} style={s.image} resizeMode="cover" />
+          <Image
+            source={{ uri: video.miniature }}
+            style={[s.image, vue && s.imageVue]}
+            resizeMode="cover"
+          />
         ) : (
           <View style={[s.image, s.imageVide]} />
         )}
@@ -72,7 +76,11 @@ const s = StyleSheet.create({
     borderBottomColor: T.trait,
     alignItems: 'center',
   },
-  carteVue: { backgroundColor: T.fondCarteVue },
+  // Une vidéo vue doit se lire comme un second plan : fond plus sombre, miniature
+  // atténuée, texte en gris. C'est surtout vrai dans « La totale », où les deux
+  // états cohabitent.
+  carteVue: { backgroundColor: T.fondCarteVue, opacity: 0.62 },
+  imageVue: { opacity: 0.5 },
   zoneImage: { width: 128, aspectRatio: 16 / 9, borderRadius: 6, overflow: 'hidden' },
   image: { width: '100%', height: '100%', backgroundColor: '#000' },
   imageVide: { backgroundColor: T.trait },

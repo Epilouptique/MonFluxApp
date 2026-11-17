@@ -141,6 +141,8 @@ export async function enregistrerDurees(
 type OptionsFlux = {
   afficherShorts: boolean;
   afficherVues: boolean;
+  /** Onglet Shorts : uniquement les vidéos détectées comme telles. */
+  shortsSeuls?: boolean;
   chaineId?: string;
   /** Mode « À regarder » : uniquement les vidéos enregistrées. */
   enregistreesSeules?: boolean;
@@ -151,7 +153,8 @@ export async function listerFlux(o: OptionsFlux): Promise<VideoAffichee[]> {
   const db = await ouvrir();
   const conditions: string[] = ['c.masquee = 0'];
   const params: (string | number)[] = [];
-  if (!o.afficherShorts) conditions.push('(v.est_short IS NULL OR v.est_short = 0)');
+  if (o.shortsSeuls) conditions.push('v.est_short = 1');
+  else if (!o.afficherShorts) conditions.push('(v.est_short IS NULL OR v.est_short = 0)');
   if (!o.afficherVues && !o.enregistreesSeules) conditions.push('e.vue_le IS NULL');
   if (o.chaineId) {
     conditions.push('v.chaine_id = ?');

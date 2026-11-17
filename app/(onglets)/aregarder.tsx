@@ -8,8 +8,10 @@ export default function ARegarder() {
   return (
     <ListeVideos
       enregistreesSeules
+      afficherShorts
+      afficherVues
       messageVide={
-        'Aucune vidéo enregistrée. Touche le marque-page sur une vignette du flux pour la garder ici.'
+        'Aucune vidéo enregistrée. Glisse une vignette vers la droite pour la garder ici.'
       }
     />
   );

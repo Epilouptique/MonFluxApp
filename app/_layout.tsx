@@ -31,8 +31,20 @@ function Racine() {
       }}
     >
       <Stack.Screen name="(onglets)" options={{ headerShown: false }} />
-      <Stack.Screen name="video/[id]" options={{ title: '', presentation: 'card' }} />
-      <Stack.Screen name="chaine/[id]" options={{ title: 'Chaîne' }} />
+      {/* headerBackTitle : sans lui, iOS reprend le nom de l'écran précédent, soit
+          « (onglets) ». */}
+      <Stack.Screen
+        name="video/[id]"
+        options={{ title: '', headerBackTitle: 'Retour', presentation: 'card' }}
+      />
+      <Stack.Screen
+        name="chaine/[id]"
+        options={{ title: 'Chaîne', headerBackTitle: 'Retour' }}
+      />
+      <Stack.Screen
+        name="reglages"
+        options={{ title: 'Réglages', presentation: 'modal' }}
+      />
     </Stack>
   );
 }

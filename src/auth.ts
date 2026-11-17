@@ -29,10 +29,18 @@ export function clientId(): string {
   return id;
 }
 
-/** Google impose, pour un client iOS, l'identifiant client inversé comme schéma de retour. */
+/**
+ * Google impose, pour un client iOS, l'identifiant client inversé comme schéma de
+ * retour, suivi d'une SEULE barre oblique : com.googleusercontent.apps.X:/oauthredirect
+ *
+ * Passer { scheme, path } construirait « X://oauthredirect » — deux barres — que Google
+ * refuse avec un « 400 invalid_request » parfaitement opaque. L'option « native »
+ * transmet l'URL telle quelle ; c'est aussi ce que fait le fournisseur Google officiel
+ * d'expo-auth-session.
+ */
 export function uriRetour(): string {
   const inverse = clientId().split('.').reverse().join('.');
-  return AuthSession.makeRedirectUri({ scheme: inverse, path: 'oauthredirect' });
+  return AuthSession.makeRedirectUri({ native: `${inverse}:/oauthredirect` });
 }
 
 /**
@@ -58,6 +66,9 @@ export async function connecter(): Promise<void> {
       'La connexion Google ne fonctionne pas dans Expo Go : Google refuse son URL de retour. Il faut un build de développement (eas build --profile development), voir docs/commandes-build.md.',
     );
   }
+  // Tracé dans les journaux Metro : c'est la valeur que Google compare à sa liste,
+  // et la seule façon de diagnostiquer un « invalid_request » sans deviner.
+  console.log('[auth] URL de retour :', uriRetour());
   const requete = new AuthSession.AuthRequest({
     clientId: clientId(),
     scopes: PORTEES,

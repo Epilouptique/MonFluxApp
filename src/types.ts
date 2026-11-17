@@ -40,14 +40,4 @@ export type VideoAffichee = Video & {
   enregistreeLe: number | null;
 };
 
-export type Reglages = {
-  /** Afficher les Shorts dans le flux. */
-  afficherShorts: boolean;
-  /** Afficher les vidéos déjà vues dans le flux. */
-  afficherVues: boolean;
-};
 
-export const REGLAGES_DEFAUT: Reglages = {
-  afficherShorts: false,
-  afficherVues: true,
-};
