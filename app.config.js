@@ -2,9 +2,14 @@
 // Configuration Expo, prête pour EAS. Toutes les valeurs variables passent par
 // l'environnement (voir docs/google-cloud.md et docs/commandes-build.md).
 
-// Identifiant client OAuth « iOS » créé dans Google Cloud Console. Jamais de secret client :
-// un client iOS n'en a pas, l'échange de jeton se fait en PKCE depuis l'appareil.
-const CLIENT_ID_IOS = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID || '';
+// Identifiant client OAuth « iOS » créé dans Google Cloud Console. Un client iOS n'a pas
+// de secret — l'échange de jeton se fait en PKCE depuis l'appareil — et cet identifiant
+// est de toute façon embarqué en clair dans l'application : il n'y a rien à protéger ici.
+// Il est donc posé en valeur par défaut, pour qu'un « npx expo start » fonctionne sans
+// préparer d'environnement. EAS le fournit aussi en variable, qui a la priorité.
+const CLIENT_ID_IOS =
+  process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ||
+  '631781454408-blrur2jpjqon057grudqe5necn6rj2tf.apps.googleusercontent.com';
 
 // Schéma de redirection OAuth imposé par Google pour un client iOS : l'identifiant client
 // inversé. On le déduit du client ID pour éviter de le saisir deux fois.

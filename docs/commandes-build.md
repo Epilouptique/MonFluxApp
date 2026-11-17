@@ -15,17 +15,25 @@ Un build de développement remplace Expo Go sans rien changer aux habitudes : il
 s'installe une fois, et `npx expo start --dev-client` recharge le JavaScript comme
 avant. Il n'y a de rebuild à faire que si une dépendance native change.
 
-## Préalable, une seule fois
+## Déjà fait (17/11/2026)
 
-Deux comptes EAS existent (`dahuconcept` et `dahu-concept`) : `eas init` demandera
-lequel détient le projet.
+- Projet EAS **@dahuconcept/monflux**, `28c98e4c-9e9d-4620-bdea-11ab3b425532`,
+  inscrit en valeur par défaut dans `app.config.js` (configuration dynamique :
+  `eas init` ne peut pas l'y écrire lui-même).
+- Variable `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` posée sur les trois environnements EAS,
+  et en valeur par défaut dans `app.config.js` pour que `npx expo start` fonctionne
+  sans préparation.
+- `tools\verif-config.bat` confirme que le schéma de retour OAuth dérivé correspond
+  au `REVERSED_CLIENT_ID` du fichier fourni par Google.
+
+## Reste à faire, une seule fois, depuis ton terminal
+
+Ces deux étapes demandent ton compte Apple et ton iPhone, elles ne peuvent pas être
+automatisées.
 
 ```bat
-cd C:\Dev\MonFluxApp
-eas login
-eas init                                  :: crée le projet EAS, renvoie EAS_PROJECT_ID
-eas env:create --name EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID --value <client iOS> --environment development --environment preview --environment production
-eas credentials                           :: profil de provisionnement iOS, géré par EAS
+eas device:create     :: enregistre l'iPhone : choisir « Website », puis le QR code
+eas credentials       :: facultatif, EAS gère tout seul au premier build
 ```
 
 ## Build de développement (itérations quotidiennes)
