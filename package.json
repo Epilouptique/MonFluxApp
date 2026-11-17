@@ -37,6 +37,7 @@
     "typecheck": "tsc --noEmit",
     "doctor": "npx expo-doctor",
     "sonde": "node tools/sonde.mjs",
+    "sonde:shorts": "node tools/shorts.mjs",
     "test": "jest",
     "verifier": "tsc --noEmit && jest"
   },

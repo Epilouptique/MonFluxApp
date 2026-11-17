@@ -24,9 +24,9 @@ export default function Reglages() {
         <View style={s.libelle}>
           <Text style={s.titre}>Afficher les Shorts</Text>
           <Text style={s.aide}>
-            Détectés par leur durée ({SEUIL_SHORT_S / 60} min ou moins). L’API YouTube ne
-            fournit pas d’indicateur fiable : quelques vidéos très courtes peuvent être
-            classées à tort.
+            Détectés par leur durée ({SEUIL_SHORT_S / 60} min ou moins) et leur format
+            vertical. L’API YouTube ne fournit pas d’indicateur : la détection est juste
+            dans environ 97 % des cas, et en cas de doute la vidéo reste affichée.
           </Text>
         </View>
         <Switch

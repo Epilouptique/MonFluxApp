@@ -7,7 +7,7 @@
 // qui ne consomment aucun quota.
 
 import { jetonAcces } from './auth';
-import { dureeIsoEnSecondes, SEUIL_SHORT_S } from './format';
+import { classerShort, dureeIsoEnSecondes, rapportEmbed, SEUIL_SHORT_S } from './format';
 
 const BASE = 'https://www.googleapis.com/youtube/v3';
 
@@ -69,12 +69,17 @@ export async function recupererAbonnements(): Promise<
 }
 
 type ReponseVideos = {
-  items?: { id: string; contentDetails?: { duration?: string } }[];
+  items?: {
+    id: string;
+    contentDetails?: { duration?: string };
+    player?: { embedHtml?: string };
+  }[];
 };
 
 /**
- * Durées des vidéos, par lots de 50. L'indicateur Short est déduit de la durée :
- * l'API ne fournit aucun champ fiable pour les distinguer (voir RESUME_TECHNIQUE.md).
+ * Durées et format des vidéos, par lots de 50. `part=player` est demandé en plus de
+ * `contentDetails` : le quota se compte par requête et non par partie, donc le format
+ * — qui sert à détecter les Shorts — ne coûte rien (voir RESUME_TECHNIQUE.md).
  */
 export async function recupererDetails(
   ids: string[],
@@ -83,9 +88,12 @@ export async function recupererDetails(
   for (let i = 0; i < ids.length; i += 50) {
     const lot = ids.slice(i, i + 50);
     const r = await appeler<ReponseVideos>('videos', {
-      part: 'contentDetails',
+      part: 'contentDetails,player',
       id: lot.join(','),
       maxResults: '50',
+      // Sans contrainte de taille, l'iframe est toujours renvoyée en 480×270 et le
+      // format de la vidéo est perdu. Avec maxHeight, les dimensions le reflètent.
+      maxHeight: '720',
     });
     const vus = new Set<string>();
     for (const item of r.items ?? []) {
@@ -94,7 +102,7 @@ export async function recupererDetails(
       details.push({
         id: item.id,
         dureeS,
-        estShort: dureeS == null ? null : dureeS <= SEUIL_SHORT_S ? 1 : 0,
+        estShort: classerShort(dureeS, rapportEmbed(item.player?.embedHtml)),
       });
     }
     // Vidéo supprimée ou privée depuis sa parution dans le flux RSS : on marque une

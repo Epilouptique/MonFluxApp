@@ -1,9 +1,11 @@
 // Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
 
 import {
+  classerShort,
   dateRelative,
   dureeIsoEnSecondes,
   dureeLisible,
+  rapportEmbed,
   SEUIL_SHORT_S,
 } from '../src/format';
 
@@ -39,11 +41,40 @@ describe('affichage des durées', () => {
   });
 });
 
-describe('seuil de détection des Shorts', () => {
-  it('classe les vidéos selon la limite de 3 minutes', () => {
-    expect(dureeIsoEnSecondes('PT58S')! <= SEUIL_SHORT_S).toBe(true);
-    expect(dureeIsoEnSecondes('PT3M')! <= SEUIL_SHORT_S).toBe(true);
-    expect(dureeIsoEnSecondes('PT3M1S')! <= SEUIL_SHORT_S).toBe(false);
+describe('détection des Shorts', () => {
+  it('lit le rapport largeur/hauteur du code d’intégration', () => {
+    expect(rapportEmbed('<iframe width="405" height="720" src="…"></iframe>')).toBeCloseTo(
+      0.5625,
+    );
+    expect(rapportEmbed('<iframe width="1280" height="720"></iframe>')).toBeCloseTo(1.78);
+    expect(rapportEmbed('<iframe></iframe>')).toBeNull();
+    expect(rapportEmbed(null)).toBeNull();
+  });
+
+  it('classe Short une vidéo courte et verticale', () => {
+    expect(classerShort(45, 0.56)).toBe(1);
+    expect(classerShort(175, 0.56)).toBe(1);
+  });
+
+  it('classe Short une vidéo courte et carrée', () => {
+    // Trois Shorts réels de l'échantillon avaient exactement ce rapport.
+    expect(classerShort(112, 1)).toBe(1);
+  });
+
+  it('ne masque pas une brève horizontale, même très courte', () => {
+    // Le cas qui comptait : la durée seule masquait 15 vidéos de ce type sur 120.
+    expect(classerShort(90, 1.78)).toBe(0);
+    expect(classerShort(30, 1.78)).toBe(0);
+  });
+
+  it('écarte toute vidéo plus longue que le seuil, sans regarder le format', () => {
+    expect(classerShort(SEUIL_SHORT_S + 1, 0.56)).toBe(0);
+  });
+
+  it('reste indéterminé plutôt que de deviner', () => {
+    // null = la vidéo reste visible : on ne masque jamais sur une supposition.
+    expect(classerShort(null, 0.56)).toBeNull();
+    expect(classerShort(45, null)).toBeNull();
   });
 });
 

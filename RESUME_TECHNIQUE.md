@@ -26,17 +26,47 @@ Limite assumée du RSS : **15 vidéos par chaîne**. Une chaîne qui publie 16 v
 entre deux ouvertures perd les plus anciennes. Sans conséquence pour un usage
 quotidien ; à surveiller après une longue absence.
 
-## Détection des Shorts
+## Détection des Shorts — mesurée, pas devinée
 
-L'API ne donne **aucun indicateur** distinguant un Short d'une vidéo courte. Le
-critère retenu est la durée : 180 s ou moins → classé Short (`src/youtube.ts`,
-`SEUIL_SHORT_S`). C'est une heuristique : un court-métrage de 2 min sera masqué à
-tort quand le filtre est actif. Le réglage le dit à l'utilisateur plutôt que de
-promettre un filtrage parfait.
+L'API ne donne **aucun indicateur** distinguant un Short d'une vidéo courte. La
+première version se fiait à la seule durée. La sonde a montré que cela masquait
+**47 % du flux** : beaucoup de chaînes suivies (France TV, Le Monde) publient des
+brèves horizontales de une à trois minutes qui ne sont pas des Shorts.
 
-Piste écartée pour l'instant : interroger `youtube.com/shorts/<id>` et regarder si
-l'URL est redirigée vers `/watch`. Fiable, mais une requête HTTP par vidéo, et rien
-ne garantit la stabilité de ce comportement.
+Deuxième signal trouvé : **le format**. `videos.list` avec `part=player` renvoie le
+code d'intégration de la vidéo, dont les dimensions reflètent le rapport
+largeur/hauteur — à condition de passer `maxHeight`, sans quoi l'iframe sort
+toujours en 480×270 et l'information est perdue. Le quota se comptant **par requête
+et non par partie**, ce signal ne coûte rien : même appel, même unité.
+
+Étalonnage sur 120 vidéos réparties sur 161 chaînes réelles (`npm run sonde:shorts`),
+contre une vérité terrain : `youtube.com/shorts/<id>` répond 200 pour un Short et
+303 vers `/watch` sinon.
+
+| Règle | Justesse | Masquées à tort | Shorts ratés |
+| --- | --- | --- | --- |
+| durée ≤ 180 s | 87,5 % | **15** | 0 |
+| durée ≤ 60 s | 68,3 % | 7 | 31 |
+| vertical seul | 95,8 % | 2 | 3 |
+| **vertical ET ≤ 180 s** | **97,5 %** | **0** | 3 |
+| vertical ET ≤ 60 s | 73,3 % | 0 | 32 |
+
+Retenu : `classerShort()` dans `src/format.ts`. Les deux erreurs ne se valent pas —
+un Short qui passe est une nuisance, une brève masquée est une information perdue,
+donc on optimise d'abord les « masquées à tort ». En cas de doute (durée ou format
+inconnus), la fonction renvoie `null` et **la vidéo reste visible**.
+
+Les trois Shorts manqués avaient un rapport d'exactement 1.00 (vidéos carrées), d'où
+`SEUIL_RAPPORT = 1` avec une comparaison `<=`.
+
+**Piège de l'étalonnage** : sans en-têtes de navigateur ni cookie `CONSENT=YES+1`,
+`youtube.com/shorts/<id>` renvoie 302 vers `consent.youtube.com` pour *toutes* les
+vidéos. La première mesure annonçait ainsi « 0 Short réel » sur un échantillon qui en
+contenait 40. `tools/diag-shorts.mjs` sert à revérifier ce comportement s'il change.
+
+Piste écartée pour l'application : cette vérification HTTP par vidéo. Fiable, mais
+une requête par vidéo, et rien ne garantit la stabilité du comportement. Elle reste
+l'étalon des sondes.
 
 ## Conservation des données : 30 jours
 
