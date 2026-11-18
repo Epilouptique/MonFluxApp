@@ -49,6 +49,49 @@ Arguments à faire valoir, tous vrais :
 - les données issues de l'API sont **effacées au bout de 30 jours** ;
 - aucune donnée n'est collectée, revendue ni transmise à un tiers.
 
+## Demande envoyée le 18/11/2026
+
+Ce qui a été soumis, mot pour mot, pour pouvoir le confronter à la réponse de Google
+le jour où elle arrivera.
+
+**Justification du champ** (935 caractères sur 1000 autorisés) :
+
+> Mon Flux is a minimalist iOS reader showing the latest videos from the user's own
+> YouTube subscriptions, in chronological order.
+>
+> We request only youtube.readonly, for two uses:
+> 1) subscriptions.list (mine=true) - retrieve the signed-in user's subscribed
+> channels. This is the core feature; without it the user would have to add every
+> channel by hand.
+> 2) videos.list (contentDetails, player) - read duration and aspect ratio to detect
+> Shorts, so the user can hide them. The API exposes no Shorts indicator.
+>
+> No narrower scope exists for reading one's own subscriptions. No write access is
+> requested: the app cannot post, comment or subscribe.
+>
+> New uploads are read from YouTube's public RSS feeds, not from the API. There is no
+> server; the device talks directly to Google. API data is cached locally and deleted
+> after 30 days, per the YouTube API Services Terms. Watch history stays on the device.
+> No data is collected, sold or shared.
+
+**Vidéo** : `https://youtube.com/shorts/R1pYfpFdpxM` — 2 min 13, non répertoriée.
+Montre la page Clients du projet (les deux clients, identifiants tronqués mais numéro
+de projet `631781454408` lisible), l'écran « application non validée », l'écran de
+consentement, puis l'usage réel dans l'application.
+
+**Questionnaire** : non à « usage personnel uniquement », non à « usage interne »,
+non à « développement/test/préproduction ». Répondre oui à la première aurait renvoyé
+le projet en mode Test sans examen.
+
+**Pas de CASA** : `youtube.readonly` est un champ *sensible*, pas *restreint*.
+L'évaluation de sécurité annuelle, payante, ne s'applique pas.
+
+### À ne pas faire pendant l'examen
+
+Ne pas modifier l'état de publication ni le type d'utilisateur, ne pas retoucher le
+branding : Google prévient que tout changement peut relancer la procédure. L'écran
+« application non validée » reste affiché d'ici là, c'est normal.
+
 ## Délai
 
 De quelques jours à plusieurs semaines. TestFlight ne l'attend pas : la diffusion y
