@@ -26,12 +26,15 @@
 <body>
 
 <h1>Mon Flux — Confidentialité et conditions d'utilisation</h1>
-<p class="date">Dernière mise à jour : 18 novembre 2026</p>
+<p class="date">Dernière mise à jour : 19 novembre 2026</p>
 
 <p>
   Ce document tient lieu de politique de confidentialité
   (<a href="#confidentialite">première partie</a>) et de conditions d'utilisation
-  (<a href="#conditions">seconde partie</a>).
+  (<a href="#conditions">seconde partie</a>). Un
+  <a href="#donnees-google">récapitulatif en cinq points</a> détaille le traitement
+  des données Google, avec un
+  <a href="#google-data-english">résumé en anglais</a>.
 </p>
 
 <h2 id="confidentialite">Première partie — Politique de confidentialité</h2>
@@ -148,6 +151,113 @@
 <p>
   Toute évolution de cette politique sera publiée sur cette page, avec sa date de mise
   à jour.
+</p>
+
+<h2 id="donnees-google">Récapitulatif — les données Google en cinq points</h2>
+
+<p>
+  Cette section reprend, point par point, les déclarations exigées par la politique
+  de Google relative aux données utilisateur.
+</p>
+
+<h3>1. Données consultées (data access)</h3>
+<p>
+  Mon Flux accède, via le champ d'application
+  <code>https://www.googleapis.com/auth/youtube.readonly</code>, en lecture seule, à :
+</p>
+<ul>
+  <li>la <strong>liste des chaînes</strong> auxquelles le titulaire du compte est
+    abonné : identifiant, nom et image de la chaîne ;</li>
+  <li>la <strong>durée et le format</strong> des vidéos affichées, afin de détecter
+    les Shorts.</li>
+</ul>
+<p>
+  Aucune autre donnée du compte Google n'est consultée : ni l'adresse e-mail, ni le
+  profil, ni l'historique de visionnage YouTube, ni les playlists, ni les
+  commentaires. Aucune donnée agrégée ou anonymisée n'est produite.
+</p>
+
+<h3>2. Usage des données (data use)</h3>
+<p>
+  Ces données servent exclusivement à afficher, dans l'application et pour le seul
+  utilisateur connecté, la liste chronologique des nouvelles vidéos de ses
+  abonnements et à filtrer les Shorts. Elles ne servent à aucune autre fin : ni
+  publicité, ni ciblage, ni analyse d'audience, ni évaluation de solvabilité, ni
+  entraînement ou amélioration de modèles d'intelligence artificielle.
+</p>
+
+<h3>3. Transfert des données (data transfer)</h3>
+<p>
+  Aucun. Les données ne quittent pas l'appareil : l'application ne dispose d'aucun
+  serveur et n'envoie rien à Dahu-Concept. Elles ne sont ni vendues, ni cédées, ni
+  partagées avec un tiers, quel qu'il soit — en particulier aucun courtier en
+  données, aucun annonceur et aucun service tiers d'intelligence artificielle.
+</p>
+
+<h3>4. Protection des données (data protection)</h3>
+<p>
+  Les échanges avec Google et YouTube se font exclusivement en HTTPS. Le jeton
+  d'authentification est conservé dans le Trousseau iOS (Keychain), l'espace chiffré
+  par le système et protégé par le code de l'appareil, avec l'attribution la plus
+  restrictive : accessible uniquement lorsque l'appareil est déverrouillé, et non
+  transférable vers un autre appareil ni vers une sauvegarde. Les données en cache
+  résident dans le conteneur privé de l'application, isolé par iOS des autres
+  applications. Aucun identifiant n'est écrit en clair, et il n'existe aucun serveur
+  susceptible d'être compromis.
+</p>
+
+<h3>5. Conservation et suppression (data retention &amp; deletion)</h3>
+<p>
+  Les données issues de l'API YouTube sont conservées en cache local au maximum
+  <strong>30 jours</strong>, conformément aux conditions de service de l'API YouTube,
+  puis supprimées automatiquement ou rafraîchies si elles sont encore utilisées.
+</p>
+<p>
+  L'utilisateur peut tout supprimer à tout moment, de trois façons : la déconnexion
+  depuis les réglages de l'application, qui révoque le jeton auprès de Google et
+  efface l'intégralité des données locales ; la désinstallation de l'application ;
+  ou le retrait de l'autorisation depuis la page
+  <a href="https://myaccount.google.com/permissions">Autorisations de son compte
+  Google</a>.
+</p>
+
+<h2 id="google-data-english">Summary in English — Google user data</h2>
+<p>
+  <strong>Access.</strong> Mon Flux uses a single scope,
+  <code>youtube.readonly</code>, read-only, to obtain (a) the list of channels the
+  signed-in user subscribes to — channel id, title and thumbnail — and (b) the
+  duration and aspect ratio of videos, used to detect Shorts. No other Google user
+  data is accessed: no email address, no profile, no YouTube watch history, no
+  playlists, no comments. No aggregated or anonymised data is derived.
+</p>
+<p>
+  <strong>Use.</strong> This data is used solely to display, to that user, a
+  chronological list of new videos from their own subscriptions and to filter
+  Shorts. It is never used for advertising, targeting, analytics, credit or lending
+  purposes, nor to develop, improve or train AI/ML models.
+</p>
+<p>
+  <strong>Transfer.</strong> None. There is no server; the device talks directly to
+  Google and YouTube, and nothing is sent to Dahu-Concept. The data is never sold,
+  transferred or shared with any third party, including data brokers, advertisers
+  and third-party AI/ML services.
+</p>
+<p>
+  <strong>Protection.</strong> All traffic uses HTTPS. The refresh token is stored in
+  the iOS Keychain with the most restrictive attribute
+  (<code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code>): available only while the device is
+  unlocked, never migrated to another device or to a backup. Cached data lives in the
+  app's private container, isolated by iOS. No credential is stored in clear text,
+  and there is no server that could be breached.
+</p>
+<p>
+  <strong>Retention and deletion.</strong> YouTube API data is cached locally for at
+  most 30 days, per the YouTube API Services Terms, then automatically deleted or
+  refreshed if still in use. The user can erase everything at any time by signing out
+  in the app — which also revokes the token with Google — by deleting the app, or by
+  removing access from their
+  <a href="https://myaccount.google.com/permissions">Google account permissions</a>
+  page.
 </p>
 
 <h2 id="conditions">Seconde partie — Conditions d'utilisation</h2>
