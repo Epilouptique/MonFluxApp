@@ -86,6 +86,29 @@ le projet en mode Test sans examen.
 **Pas de CASA** : `youtube.readonly` est un champ *sensible*, pas *restreint*.
 L'évaluation de sécurité annuelle, payante, ne s'applique pas.
 
+### Réponse à la grille d'audit — 19/11/2026
+
+Google a renvoyé le jour même sa grille de conformité : réponse type à toute
+première soumission, et non un refus. Elle exige une réponse par courriel, faute de
+quoi le dossier reste en attente.
+
+Avant de répondre, la page publique a été complétée d'un récapitulatif en cinq
+points reprenant leurs intitulés — données consultées, usage, transfert, protection,
+conservation et suppression — avec un résumé en anglais. Le contenu était déjà vrai
+mais dispersé dans la prose, ce qui est la première cause de relance.
+
+La réponse envoyée reprend leur grille rubrique par rubrique. Points fermés
+explicitement, parce qu'un critère non traité est un critère réputé manquant :
+
+- **CASA** : sans objet, champ sensible et non restreint ;
+- **Source account impact** : sans objet, aucune permission d'écriture ;
+- **AI/ML** : sans objet, ni Workspace ni Photos, aucun composant d'apprentissage ;
+- **Data Portability** : sans objet ;
+- **Test credentials** : sans objet — aucun identifiant propre à l'application, et
+  l'application n'étant pas distribuée, la vidéo tient lieu de démonstration.
+
+Texte intégral : `tools/reponse-google-verification.txt`.
+
 ### À ne pas faire pendant l'examen
 
 Ne pas modifier l'état de publication ni le type d'utilisateur, ne pas retoucher le

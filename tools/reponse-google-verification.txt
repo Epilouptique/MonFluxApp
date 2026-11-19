@@ -1,0 +1,134 @@
+Objet : Re: OAuth verification — project monflux-515013 (Mon Flux)
+
+Hello,
+
+Thank you for the checklist. We have audited the application, the Cloud Console
+configuration and our submission against every item. Our answers follow in the
+order of your list.
+
+SCOPE CONFIGURATION & JUSTIFICATION
+
+Least privilege — We request a single scope,
+https://www.googleapis.com/auth/youtube.readonly. No narrower scope exists that
+returns a user's own subscription list; there is no subscriptions-only read scope
+in the YouTube Data API. No write scope is requested: the app cannot post,
+comment, rate, subscribe or modify anything.
+
+Production-ready — The scope backs two shipped, user-facing features: the
+chronological subscription feed (the app's only purpose), and the Shorts filter.
+Nothing is experimental or hidden behind a flag.
+
+Scope justification —
+1) subscriptions.list (mine=true): builds the user's channel list. Without it the
+   user would have to add every channel by hand, which is the problem the app
+   exists to solve.
+2) videos.list (part=contentDetails,player): reads duration and aspect ratio to
+   identify Shorts, so the user can hide them. The API exposes no Shorts flag, and
+   duration alone misclassifies short news clips, so both signals are needed.
+This is not an integration platform; it is a single-purpose reader.
+
+Worth noting: the videos themselves are NOT fetched from the API. New uploads are
+read from YouTube's public RSS feeds (youtube.com/feeds/videos.xml). The API is
+used only for the account holder's own subscriptions and for durations. A full
+refresh costs 1 to 3 quota units.
+
+DEMO VIDEO
+
+Accessible hosting — Unlisted YouTube video:
+https://www.youtube.com/watch?v=R1pYfpFdpxM
+
+Consent screen visibility — The OAuth consent screen is shown in full, with the
+requested scope readable. The "unverified app" screen is also shown, including the
+Advanced / Proceed step.
+
+Scope matching — The Cloud Console lists exactly one scope, youtube.readonly, and
+the app requests exactly that scope and no other.
+
+Scope functionality — The video shows the subscription list being populated after
+consent (subscriptions.list), the chronological feed, and the Shorts tab, which is
+the visible result of the duration and aspect-ratio lookup (videos.list).
+
+Source account impact — Not applicable: no write or delete permission is
+requested. The app cannot alter the user's Google account in any way.
+
+Live apps — The app is not yet distributed publicly. The publishing status remains
+"In Production" and the demo was recorded on the developer's own account.
+
+APP ACCESS & TESTING ENVIRONMENT
+
+Active test credentials — Not applicable. The app has no local login, no account
+of its own and no pre-configured environment: any Google account with YouTube
+subscriptions can sign in and use every feature. The app is an iOS application
+that has not been released yet, so the demo video is the demonstration of the
+integration.
+
+Zero authentication blockers — There is no phone verification, no payment, no
+invite code and no paywall. The app is free.
+
+Clear integration access — Navigation: launch the app, tap "Se connecter avec
+Google" on the first screen, complete the Google consent flow. The subscription
+feed then appears immediately. There is no other entry point.
+
+PRIVACY POLICY DISCLOSURES
+
+The policy is published at
+https://dahu-concept.fr/references/mon-flux/confidentialite/
+and now contains an explicit five-point section covering exactly these
+requirements, with an English summary for review:
+
+- Data access: which Google user data is read, and the list of what is not.
+- Data use: display of the user's own feed and Shorts filtering, nothing else.
+- Data transfer: none, to anyone.
+- Data protection: HTTPS only; refresh token in the iOS Keychain with
+  WHEN_UNLOCKED_THIS_DEVICE_ONLY; cache in the app's private container; no server.
+- Data retention and deletion: 30-day cache limit per the YouTube API Services
+  Terms, plus three user-initiated ways to erase everything.
+
+DATA HANDLING: LIMITED USE
+
+Prohibited data use — Google user data is used only to provide the user-facing
+feature. It is never used for advertising, targeting, analytics, profiling or
+lending purposes.
+
+Prohibited data transfer — No Google user data is transferred or sold to anyone.
+There is no server: the device communicates directly with Google and YouTube, and
+no data ever reaches Dahu-Concept.
+
+AI/ML MODEL TRAINING RESTRICTIONS
+
+Not applicable: the app uses no Workspace or Photos API, and contains no AI/ML
+component. No user data is used for, or transferred to, model training of any
+kind.
+
+PROHIBITED USE CASES
+
+The app complies with the YouTube API Services allowed use cases. It does not
+reward, incentivise or automate subscriptions, likes or any other engagement; it
+does not send commercial email; it does not use any Google service as a CDN.
+Playback uses the official YouTube IFrame Player, unmodified, retaining its
+controls, links, branding and advertising.
+
+DATA PORTABILITY APIS
+
+Not applicable: no Data Portability API is used.
+
+CASA
+
+Not applicable: youtube.readonly is a Sensitive scope, not a Restricted one. No
+Restricted scope is requested.
+
+ABOUT THE APP
+
+Mon Flux is a free iOS application. It shows the latest videos from the channels
+the user already subscribes to, in publication order, with no recommendations and
+no algorithmic feed. There is no account to create, no advertising, no tracker and
+no server. Watch history is stored on the device and never sent to YouTube.
+
+We remain available for any clarification you may need.
+
+Best regards,
+
+Hugo Vial-Jaime
+Dahu-Concept — Gap, France
+contact@dahu-concept.fr
+https://dahu-concept.fr/references/mon-flux/
