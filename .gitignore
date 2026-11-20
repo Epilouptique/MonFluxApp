@@ -46,4 +46,4 @@ CLAUDE.md
 .env 
 .sonde.json 
 tools/journal-build.txt 
-tools/*.ps1 
+ 
