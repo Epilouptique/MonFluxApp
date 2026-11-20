@@ -39,7 +39,13 @@ Fait :
   `C:\Dev\screenshots-ios\Mon flux\store\` ;
 - six captures au format 1080×1920, même dossier ;
 - métadonnées `fastlane/metadata/android/fr-FR/`, utilisables aussi par IzzyOnDroid ;
-- `eas.json` : APK pour `preview`, app-bundle pour `production`.
+- `eas.json` : APK pour `preview`, app-bundle pour `production` ;
+- **chaîne de compilation validée** : l'APK `preview`
+  `a6f3440d-18cc-4c7a-bba2-b15986964486` est sorti sans erreur le 20/11 à 15h44.
+  Il est installable pour juger l'interface sur un appareil Android, mais la
+  connexion y échouera, faute de client OAuth Android ; et il est antérieur à la
+  correction de l'écran de démarrage. Ne pas en refaire un tout de suite : le build
+  qui comptera est celui d'après la création du client OAuth.
 
 **En attente, volontairement** : la création du client OAuth Android. Voir plus bas.
 
