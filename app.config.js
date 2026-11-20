@@ -11,6 +11,16 @@ const CLIENT_ID_IOS =
   process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ||
   '631781454408-blrur2jpjqon057grudqe5necn6rj2tf.apps.googleusercontent.com';
 
+// Client OAuth « Android », distinct du client iOS : Google le lie au nom de paquet et
+// à l'empreinte SHA-1 du certificat de signature. Il n'existe pas encore (voir
+// docs/google-cloud.md) ; sans lui, l'application se construit et s'installe, mais la
+// connexion Google échoue.
+const CLIENT_ID_ANDROID = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID || '';
+
+// Identifiant applicatif commun aux deux plateformes. DÉFINITIF après publication :
+// le changer revient à publier une nouvelle application.
+const IDENTIFIANT = 'fr.dahuconcept.monflux';
+
 // Schéma de redirection OAuth imposé par Google pour un client iOS : l'identifiant client
 // inversé. On le déduit du client ID pour éviter de le saisir deux fois.
 const SCHEMA_INVERSE = CLIENT_ID_IOS
@@ -21,7 +31,10 @@ module.exports = {
   expo: {
     name: 'Mon Flux',
     slug: 'monflux',
-    scheme: 'monflux',
+    // Deux schémas : celui de l'application, et le nom de paquet, qui sert d'URL de
+    // retour OAuth sur Android. Déclarer le second ici évite d'écrire un filtre
+    // d'intention à la main.
+    scheme: ['monflux', IDENTIFIANT],
     // Version affichée. Le buildNumber est géré par EAS (appVersionSource « remote » dans
     // eas.json) : app.config.js est dynamique, EAS ne peut pas l'y réécrire.
     version: '1.0.0',
@@ -52,8 +65,19 @@ module.exports = {
       },
     },
     android: {
-      // Réservé : la version Android n'est pas construite pour l'instant (décision du 17/11/2026).
-      package: 'fr.dahuconcept.monflux',
+      package: IDENTIFIANT,
+      // Icône adaptative : Android recompose lui-même la forme (ronde, carrée,
+      // en goutte) à partir de l'avant-plan et de l'arrière-plan. La version
+      // monochrome sert aux thèmes dynamiques d'Android 13 et suivants.
+      adaptiveIcon: {
+        foregroundImage: './assets/android-icon-foreground.png',
+        backgroundImage: './assets/android-icon-background.png',
+        monochromeImage: './assets/android-icon-monochrome.png',
+        backgroundColor: '#0E0E10',
+      },
+      // Thème sombre : l'application n'a pas de mode clair, autant que le système
+      // le sache avant même le premier rendu.
+      softwareKeyboardLayoutMode: 'pan',
       blockedPermissions: [
         'android.permission.RECORD_AUDIO',
         'android.permission.CAMERA',
@@ -75,6 +99,8 @@ module.exports = {
     experiments: { typedRoutes: true },
     extra: {
       googleIosClientId: CLIENT_ID_IOS,
+      googleAndroidClientId: CLIENT_ID_ANDROID,
+      identifiantApplicatif: IDENTIFIANT,
       // Projet EAS @dahuconcept/monflux. L'identifiant n'est pas un secret (il figure
       // dans les builds) ; il est écrit ici parce qu'une configuration dynamique ne
       // peut pas être renseignée automatiquement par « eas init ».

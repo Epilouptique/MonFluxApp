@@ -62,7 +62,7 @@ export default function Reglages() {
         onPress={() =>
           Alert.alert(
             'Se déconnecter',
-            'Les abonnements, l’historique et la liste « À regarder » seront supprimés de cet iPhone.',
+            'Les abonnements, l’historique et la liste « À regarder » seront supprimés de cet appareil.',
             [
               { text: 'Annuler', style: 'cancel' },
               {

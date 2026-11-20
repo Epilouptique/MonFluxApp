@@ -1,8 +1,8 @@
 # Mon Flux
 
-Lecteur de flux pour les abonnements YouTube, sur iPhone. Les nouvelles vidéos des
-chaînes suivies, dans l'ordre chronologique : pas de recommandations, pas de page
-d'accueil, pas de Shorts sauf si on les demande.
+Lecteur de flux pour les abonnements YouTube, sur iPhone et Android. Les nouvelles
+vidéos des chaînes suivies, dans l'ordre chronologique : pas de recommandations, pas
+de page d'accueil, pas de Shorts sauf si on les demande.
 
 Expo SDK 58 · React Native · TypeScript · expo-router · SQLite local · aucun serveur.
 
@@ -15,7 +15,9 @@ npx expo start --dev-client
 ```
 
 La création des identifiants Google est décrite dans `docs/google-cloud.md`, les
-commandes de build dans `docs/commandes-build.md`. **Expo Go ne convient pas pour ce
+commandes de build dans `docs/commandes-build.md`, la fiche App Store dans
+`docs/app-store.md`, la fiche Play Store et le piège des signatures dans
+`docs/play-store.md`, et l'étude F-Droid dans `docs/f-droid.md`. **Expo Go ne convient pas pour ce
 projet** : Google refuse son URL de retour OAuth. Il faut un build de développement.
 
 ```bat
@@ -39,15 +41,19 @@ et affiche le coût réel en quota.
 
 | Onglet | Contenu |
 | --- | --- |
-| Flux | Toutes les vidéos des abonnements, du plus récent au plus ancien. Filtre « non vues ». |
-| Chaînes | Chaînes suivies, flux par chaîne, masquage d'une chaîne. |
+| La totale | Tout ce qui a été récupéré, déjà vu et Shorts compris. |
 | À regarder | Vidéos enregistrées pour plus tard. |
-| Réglages | Shorts, vidéos vues, actualisation, déconnexion. |
+| Flux | Au centre, sous l'icône : ce qui reste à voir. Ni vues, ni Shorts. |
+| Les Shorts | Les Shorts, isolés du flux. |
+| Mes abonnements | Chaînes suivies, avec recherche, flux par chaîne, masquage. |
+
+Les réglages sont derrière le bouton « ⋯ » de l'en-tête. Glisser une vignette vers la
+droite l'enregistre, vers la gauche la marque comme vue.
 
 ## Ce que fait l'application, et ce qu'elle ne fait pas
 
-Lecture seule des abonnements. Historique de lecture gardé sur l'iPhone, jamais envoyé
-à YouTube. Les vidéos sont lues dans le lecteur officiel YouTube, intact. Pas de
+Lecture seule des abonnements. Historique de lecture gardé sur l'appareil, jamais
+envoyé à YouTube. Les vidéos sont lues dans le lecteur officiel YouTube, intact. Pas de
 notifications, pas de téléchargement, pas de lecture en arrière-plan, pas de
 synchronisation entre appareils.
 

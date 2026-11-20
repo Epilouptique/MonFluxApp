@@ -42,7 +42,7 @@
 <p class="encadre">
   <strong>En une phrase :</strong> Mon Flux ne collecte aucune donnée. L'application
   n'a pas de serveur, pas de compte à créer, pas de publicité et pas de traceur.
-  Tout ce qu'elle sait de vous reste sur votre iPhone.
+  Tout ce qu'elle sait de vous reste sur votre appareil.
 </p>
 
 <h2>Qui édite l'application</h2>
@@ -81,15 +81,15 @@
 
 <h2>Où vont vos données</h2>
 <p>
-  Nulle part. Il n'existe aucun serveur Mon Flux. Votre iPhone dialogue directement
+  Nulle part. Il n'existe aucun serveur Mon Flux. Votre appareil dialogue directement
   avec Google et YouTube ; aucune donnée ne transite par Dahu-Concept, qui n'en reçoit
   aucune et n'en conserve aucune.
 </p>
 <p>Sur votre appareil sont enregistrés :</p>
 <ul>
   <li>
-    le jeton d'accès à votre compte Google, dans le Trousseau iOS, l'espace chiffré
-    prévu par Apple pour les identifiants ;
+    le jeton d'accès à votre compte Google, dans le stockage chiffré du système —
+    le Trousseau sur iOS, le Keystore sur Android ;
   </li>
   <li>
     la liste de vos chaînes et des vidéos récentes, dans une base locale servant de
@@ -197,13 +197,13 @@
 <h3>4. Protection des données (data protection)</h3>
 <p>
   Les échanges avec Google et YouTube se font exclusivement en HTTPS. Le jeton
-  d'authentification est conservé dans le Trousseau iOS (Keychain), l'espace chiffré
-  par le système et protégé par le code de l'appareil, avec l'attribution la plus
-  restrictive : accessible uniquement lorsque l'appareil est déverrouillé, et non
-  transférable vers un autre appareil ni vers une sauvegarde. Les données en cache
-  résident dans le conteneur privé de l'application, isolé par iOS des autres
-  applications. Aucun identifiant n'est écrit en clair, et il n'existe aucun serveur
-  susceptible d'être compromis.
+  d'authentification est conservé dans le stockage chiffré du système — le Trousseau
+  sur iOS, le Keystore sur Android —, protégé par le code de l'appareil, avec
+  l'attribution la plus restrictive : accessible uniquement lorsque l'appareil est
+  déverrouillé, et non transférable vers un autre appareil ni vers une sauvegarde.
+  Les données en cache résident dans le conteneur privé de l'application, que le
+  système isole des autres applications. Aucun identifiant n'est écrit en clair, et
+  il n'existe aucun serveur susceptible d'être compromis.
 </p>
 
 <h3>5. Conservation et suppression (data retention &amp; deletion)</h3>
@@ -244,11 +244,12 @@
 </p>
 <p>
   <strong>Protection.</strong> All traffic uses HTTPS. The refresh token is stored in
-  the iOS Keychain with the most restrictive attribute
-  (<code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code>): available only while the device is
-  unlocked, never migrated to another device or to a backup. Cached data lives in the
-  app's private container, isolated by iOS. No credential is stored in clear text,
-  and there is no server that could be breached.
+  the platform's encrypted store — the iOS Keychain, the Android Keystore — with the
+  most restrictive attribute (<code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code>): available
+  only while the device is unlocked, never migrated to another device or to a backup.
+  Cached data lives in the app's private container, isolated by the operating system.
+  No credential is stored in clear text, and there is no server that could be
+  breached.
 </p>
 <p>
   <strong>Retention and deletion.</strong> YouTube API data is cached locally for at
@@ -264,7 +265,7 @@
 
 <h2>Objet</h2>
 <p>
-  Mon Flux est une application iPhone qui affiche, dans l'ordre chronologique, les
+  Mon Flux est une application mobile qui affiche, dans l'ordre chronologique, les
   nouvelles vidéos des chaînes YouTube auxquelles vous êtes abonné. Son utilisation
   est gratuite et n'implique aucun abonnement, aucun achat et aucune création de
   compte auprès de Dahu-Concept.

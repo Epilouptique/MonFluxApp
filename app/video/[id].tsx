@@ -1,5 +1,6 @@
 // Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
-// Lecteur : IFrame Player API officielle dans une WKWebView. Le lecteur YouTube garde
+// Lecteur : IFrame Player API officielle dans une WebView — WKWebView sur iOS, WebView
+// système sur Android, le code est le même. Le lecteur YouTube garde
 // ses fonctions (commandes, plein écran, liens, publicités) ; nous n'en retirons rien,
 // nous écoutons les changements d'état pour marquer la vidéo comme vue.
 //
@@ -8,7 +9,9 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  BackHandler,
   Linking,
+  Platform,
   Pressable,
   Share,
   StyleSheet,
@@ -187,6 +190,20 @@ export default function Lecteur() {
     if (lancerDirect) router.back();
     else setPleinEcran(false);
   }, [lancerDirect, router]);
+
+  /**
+   * Bouton retour matériel d'Android, qui n'a pas d'équivalent sur iPhone. En plein
+   * écran il réduit, comme dans n'importe quel lecteur vidéo ; sans cela il quitterait
+   * l'écran d'un coup, ce qui surprend. Hors plein écran, comportement par défaut.
+   */
+  useEffect(() => {
+    if (Platform.OS !== 'android' || !pleinEcran) return;
+    const abonnement = BackHandler.addEventListener('hardwareBackPress', () => {
+      quitterPleinEcran();
+      return true;
+    });
+    return () => abonnement.remove();
+  }, [pleinEcran, quitterPleinEcran]);
 
   const marquerVue = useCallback(async () => {
     if (dejaMarquee.current || !id) return;

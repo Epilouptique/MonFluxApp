@@ -1,8 +1,10 @@
 // Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
 // Connexion Google en OAuth 2.0 + PKCE, depuis l'appareil, sans secret client et sans
-// serveur à nous. Le jeton de rafraîchissement est le seul élément durable : il part dans
-// le Trousseau iOS (expo-secure-store), jamais dans SQLite ni dans le dépôt.
+// serveur à nous. Le jeton de rafraîchissement est le seul élément durable : il part
+// dans le stockage chiffré du système (expo-secure-store : Trousseau sur iOS, Keystore
+// sur Android), jamais dans SQLite ni dans le dépôt.
 
+import { Platform } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
 import * as SecureStore from 'expo-secure-store';
 import Constants from 'expo-constants';
@@ -18,20 +20,40 @@ export const DECOUVERTE: AuthSession.DiscoveryDocument = {
   revocationEndpoint: 'https://oauth2.googleapis.com/revoke',
 };
 
+type Extra = {
+  googleIosClientId?: string;
+  googleAndroidClientId?: string;
+  identifiantApplicatif?: string;
+};
+
+function extra(): Extra {
+  return (Constants.expoConfig?.extra as Extra | undefined) ?? {};
+}
+
+/**
+ * Chaque plateforme a son propre client OAuth chez Google : un client « iOS » et un
+ * client « Android », liés respectivement à l'identifiant de bundle et au couple
+ * nom de paquet + empreinte de signature. Il n'existe pas de client commun.
+ */
 export function clientId(): string {
-  const id = (Constants.expoConfig?.extra as { googleIosClientId?: string } | undefined)
-    ?.googleIosClientId;
+  const e = extra();
+  const id = Platform.OS === 'android' ? e.googleAndroidClientId : e.googleIosClientId;
   if (!id) {
     throw new Error(
-      "Identifiant client Google absent : renseigne EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID (voir docs/google-cloud.md).",
+      Platform.OS === 'android'
+        ? "Identifiant client Google Android absent : renseigne EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID (voir docs/google-cloud.md)."
+        : "Identifiant client Google iOS absent : renseigne EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID (voir docs/google-cloud.md).",
     );
   }
   return id;
 }
 
 /**
- * Google impose, pour un client iOS, l'identifiant client inversé comme schéma de
- * retour, suivi d'une SEULE barre oblique : com.googleusercontent.apps.X:/oauthredirect
+ * URL de retour, différente selon la plateforme, et dans les deux cas suivie d'une
+ * SEULE barre oblique :
+ *
+ * - iOS     : l'identifiant client inversé, com.googleusercontent.apps.X:/oauthredirect
+ * - Android : le nom de paquet de l'application, fr.dahuconcept.monflux:/oauthredirect
  *
  * Passer { scheme, path } construirait « X://oauthredirect » — deux barres — que Google
  * refuse avec un « 400 invalid_request » parfaitement opaque. L'option « native »
@@ -39,6 +61,11 @@ export function clientId(): string {
  * d'expo-auth-session.
  */
 export function uriRetour(): string {
+  if (Platform.OS === 'android') {
+    const paquet =
+      extra().identifiantApplicatif ?? Constants.expoConfig?.android?.package ?? '';
+    return AuthSession.makeRedirectUri({ native: `${paquet}:/oauthredirect` });
+  }
   const inverse = clientId().split('.').reverse().join('.');
   return AuthSession.makeRedirectUri({ native: `${inverse}:/oauthredirect` });
 }

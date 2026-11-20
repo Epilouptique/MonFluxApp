@@ -152,6 +152,38 @@ ses proportions dès que le plafond s'applique, et la vidéo se retrouve réduit
 collée à gauche. La hauteur est calculée d'abord, la largeur en découle, et le cadre
 est centré.
 
+## Android
+
+Ajouté le 20/11/2026. Le code est resté commun aux deux plateformes ; seules quatre
+choses diffèrent réellement, et aucune n'est un détail.
+
+**Le client OAuth.** Google lie un client Android au couple nom de paquet + empreinte
+SHA-1 du certificat de signature, là où un client iOS est lié à l'identifiant de
+bundle. Ce sont donc deux clients distincts, et `auth.ts` choisit selon
+`Platform.OS`. L'URL de retour diffère aussi : identifiant client inversé sur iOS,
+nom de paquet sur Android. D'où `scheme: ['monflux', 'fr.dahuconcept.monflux']` dans
+la configuration, qui enregistre le second schéma sans écrire de filtre d'intention.
+
+**Conséquence peu intuitive** : la même application porte trois signatures selon sa
+provenance — clé EAS pour un APK installé à la main, clé de Google pour le Play Store
+(Play App Signing), clé de F-Droid le cas échéant. Il faut **un client OAuth par
+empreinte**. C'est la cause classique du « ça marchait en test, plus depuis le
+magasin ». Détaillé dans `docs/play-store.md`.
+
+**Le bouton retour matériel**, qui n'existe pas sur iPhone. En plein écran il réduit
+au lieu de quitter l'écran, via `BackHandler`. Sans cela, le geste de retour fait
+sortir brutalement de la vidéo.
+
+**Les marges système.** Android dessine désormais sous la barre de navigation : la
+barre d'onglets ajoute `insets.bottom` à sa hauteur, sinon les icônes passent derrière
+la barre de gestes.
+
+**L'icône adaptative.** Android recompose la forme lui-même à partir d'un avant-plan
+et d'un arrière-plan, et rogne une zone de sécurité circulaire de 66 %. Le motif est
+donc dessiné avec une marge de 28 %, sans quoi il serait amputé sur les lanceurs
+ronds. Une variante monochrome sert aux thèmes dynamiques d'Android 13 et suivants.
+Le tout est produit par `_generateur-monflux.py android`.
+
 ## Risques ouverts
 
 1. **Règles développeur YouTube.** L'agrégation de données API provenant de chaînes

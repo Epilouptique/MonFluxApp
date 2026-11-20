@@ -21,7 +21,8 @@ export default function Connexion() {
         </Text>
         <Text style={s.detail}>
           La connexion Google sert uniquement à lire la liste de tes abonnements.
-          L’historique de lecture reste sur cet iPhone et n’est jamais envoyé à YouTube.
+          L’historique de lecture reste sur cet appareil et n’est jamais envoyé à
+          YouTube.
         </Text>
         {erreur ? <Text style={s.erreur}>{erreur}</Text> : null}
         <Pressable

@@ -6,6 +6,7 @@
 import React from 'react';
 import { Image, Pressable, StyleSheet } from 'react-native';
 import { Tabs, useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { T } from '../../src/theme';
 
@@ -25,6 +26,10 @@ function BoutonReglages() {
 }
 
 export default function Onglets() {
+  // Android dessine désormais sous la barre de navigation système : sans cette marge,
+  // les icônes se retrouvent derrière la barre de gestes. Sur iPhone, l'encoche du bas
+  // produit le même besoin, avec une autre valeur.
+  const marges = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -36,8 +41,9 @@ export default function Onglets() {
         tabBarStyle: {
           backgroundColor: T.fond,
           borderTopColor: T.trait,
-          height: 64,
+          height: 64 + marges.bottom,
           paddingTop: 10,
+          paddingBottom: marges.bottom,
         },
         tabBarIconStyle: { marginTop: 2 },
         tabBarActiveTintColor: T.texte,

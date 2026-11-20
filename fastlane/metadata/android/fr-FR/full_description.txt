@@ -1,0 +1,28 @@
+Mon Flux affiche les nouvelles vidéos des chaînes auxquelles vous êtes abonné, dans l'ordre où elles ont été publiées. Rien d'autre.
+
+Pas de page d'accueil, pas de recommandations, pas de suggestions, pas de fil sans fin. Vous voyez ce que vous avez choisi de suivre, du plus récent au plus ancien, et la liste se vide à mesure que vous la consultez.
+
+<b>Ce que fait l'application</b>
+
+• Récupère automatiquement vos abonnements après connexion à votre compte Google
+• Classe les nouvelles vidéos par date de publication, sans algorithme de recommandation
+• Masque les Shorts du flux principal et les regroupe dans un onglet à part
+• Garde la trace de ce que vous avez déjà regardé
+• Permet de mettre une vidéo de côté pour plus tard
+• Lit les vidéos dans le lecteur YouTube officiel, intact
+
+<b>Gestes</b>
+
+Glissez une vignette vers la droite pour la garder, vers la gauche pour la marquer comme vue. Touchez-la pour lancer la lecture en plein écran.
+
+<b>Vos données restent chez vous</b>
+
+L'historique de lecture et la liste « à regarder » sont stockés sur votre appareil et ne sont jamais envoyés à YouTube ni à personne d'autre. L'application n'a aucun serveur, aucun compte à créer, aucune publicité et aucun traceur. La connexion Google sert uniquement à lire la liste de vos abonnements, en lecture seule.
+
+Se déconnecter supprime tout de l'appareil.
+
+<b>Ce qu'elle ne fait pas</b>
+
+Pas de notifications, pas de téléchargement, pas de lecture en arrière-plan, pas de synchronisation entre appareils, pas de commentaires. C'est volontaire.
+
+Mon Flux n'est pas affilié à YouTube ni à Google.

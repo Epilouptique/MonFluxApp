@@ -57,7 +57,7 @@ export async function recupererFluxChaine(chaineId: string): Promise<EntreeRss[]
 
 /**
  * Récupère plusieurs chaînes avec un parallélisme borné : une centaine de requêtes
- * simultanées depuis un iPhone fait échouer la moitié des connexions.
+ * simultanées depuis un téléphone fait échouer la moitié des connexions.
  */
 export async function recupererFlux(
   chaineIds: string[],
