@@ -241,25 +241,32 @@ YouTube : interdit sur l'icône d'une application tierce.
 
 ## État au 20/11/2026
 
-**iOS — fonctionnel sur appareil, en attente de Google.** L'application tourne sur
+**Validation Google accordée le 20/11.** Le niveau d'accès `youtube.readonly` est
+approuvé pour le projet `monflux-515013`. L'écran de consentement est en production,
+type externe : le plafond de 100 utilisateurs ne s'applique pas à un niveau d'accès
+sensible approuvé, et les jetons de rafraîchissement n'expirent plus à sept jours.
+C'est ce qui débloque les deux magasins.
+
+**iOS — fonctionnel sur appareil, prêt à soumettre.** L'application tourne sur
 l'iPhone : connexion, synchronisation, lecteur, plein écran, Shorts, gestes de
-balayage. Les visuels de magasin et les champs App Store Connect sont prêts.
-La vérification OAuth de Google a été soumise le 19/11 et sa grille d'audit a reçu
-réponse ; tant qu'elle n'est pas accordée, l'écran de consentement reste limité aux
-utilisateurs de test, ce qui interdit une publication publique. Détails dans
-`docs/verification-google.md` et `docs/app-store.md`.
+balayage. Les visuels de magasin et les champs App Store Connect sont prêts, et plus
+rien ne retient l'examen d'Apple. Détails dans `docs/verification-google.md` et
+`docs/app-store.md`.
 
-**Android — code prêt, publication bloquée en amont.** Le code, les visuels, les
-métadonnées et la configuration native sont faits et vérifiés (`tsc` propre, 13 tests
-au vert, `expo-doctor` 20/20, manifeste et ressources relus après `prebuild`). Deux
-décisions restent au propriétaire du projet, aucune n'est technique :
+**Android — code prêt, premier client OAuth créé, build en attente de crédits.** Le
+code, les visuels, les métadonnées et la configuration native sont faits et vérifiés
+(`tsc` propre, 13 tests au vert, `expo-doctor` 20/20, manifeste et ressources relus
+après `prebuild`). Le client OAuth lié à la clé EAS a été créé le 20/11 au soir et
+enregistré dans les environnements EAS `preview` et `production`.
 
-1. **Le client OAuth Android n'est volontairement pas créé.** La grille d'audit de
-   Google exige que la vidéo de démonstration montre l'ensemble des clients OAuth du
-   projet, et celle qui a été soumise en montre deux. En ajouter un troisième
-   maintenant rendrait la vidéo incomplète et relancerait l'examen. Sans ce client, la
-   connexion échoue sur Android : la publication sur le Play Store attend donc la fin
-   de la vérification iOS, puis la création du client et un nouveau build.
+Deux choses restent, dont une seule est technique :
+
+1. **Les crédits de build EAS sont épuisés** jusqu'au 01/12. Aucun binaire embarquant
+   le nouvel identifiant n'a donc encore tourné : la connexion Android reste non
+   vérifiée sur appareil. Les deux AAB déjà construits portent un identifiant vide —
+   suffisants pour fixer la clé de signature du Play Store, pas pour tester. Suite des
+   opérations dans `docs/play-store.md`.
 2. **F-Droid suppose d'ouvrir le code** sous licence libre, dépôt public et
-   compilation depuis les sources. Recommandation documentée dans `docs/f-droid.md` :
-   ne pas viser le dépôt officiel, et envisager IzzyOnDroid ou un APK auto-hébergé.
+   compilation depuis les sources. Décision du propriétaire, pas une question
+   technique. Recommandation documentée dans `docs/f-droid.md` : ne pas viser le dépôt
+   officiel, et envisager IzzyOnDroid ou un APK auto-hébergé.

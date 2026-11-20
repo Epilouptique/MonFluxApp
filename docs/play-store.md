@@ -47,27 +47,54 @@ Fait :
   correction de l'écran de démarrage. Ne pas en refaire un tout de suite : le build
   qui comptera est celui d'après la création du client OAuth.
 
-**En attente, volontairement** : la création du client OAuth Android. Voir plus bas.
+## Client OAuth Android — créé le 20/11/2026
 
-## Pourquoi le client OAuth Android n'a pas été créé
+La validation OAuth de Google est **accordée** (niveau d'accès `youtube.readonly`,
+projet `monflux-515013`, courriel du 20/11 au soir). L'écran de consentement est en
+production, type externe : plus de plafond d'utilisateurs, plus de jeton de
+rafraîchissement expirant à sept jours. La raison d'attendre a donc disparu.
 
-La demande de validation Google déposée le 18/11 est en cours d'examen. Leur grille
-exige que la vidéo de démonstration montre **l'ensemble des clients OAuth du projet**.
-La vidéo soumise en montre deux. En ajouter un troisième maintenant la rendrait
-incomplète, au risque d'une demande de reprise qui retarderait la validation — donc
-l'App Store autant que le Play Store.
+Premier client créé dans la foulée :
 
-Le coût d'attendre est faible : tout le reste avance, seule la connexion Google est
-inopérante sur Android. Le coût de ne pas attendre peut se compter en semaines.
+- nom : **Mon Flux Android (cle EAS)** ;
+- nom de paquet : `fr.dahuconcept.monflux` ;
+- empreinte SHA-1 : `68:24:38:03:70:1B:61:8D:6C:D3:CA:FC:85:95:E7:B3:C7:79:7B:13`
+  (clé d'importation EAS, lisible sur expo.dev → Credentials → Android) ;
+- identifiant :
+  `631781454408-fq1rq4sprvtstvkagieq0hm8vn5k1s7v.apps.googleusercontent.com`.
 
-Une fois la validation obtenue :
+Enregistré dans les variables d'environnement EAS `preview` et `production` sous
+`EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID`. Il couvre les APK installés à la main. Le
+second client, celui de la clé de Google, reste à créer une fois le premier AAB
+envoyé au Play Store — voir ci-dessous.
 
-1. relever l'empreinte A ;
-2. Console Google Cloud → Clients → Créer un client → Android, nom de paquet
-   `fr.dahuconcept.monflux`, empreinte A ;
-3. `eas env:create --name EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID --value <client> --type string --visibility plaintext --environment development --environment preview --environment production` ;
-4. reconstruire, vérifier la connexion ;
-5. après le premier dépôt au Play Store, recommencer avec l'empreinte B.
+**Crédits de build EAS épuisés** pour la période, réinitialisation le 01/12/2026. Les
+deux AAB déjà construits (versionCode 2 et 3) embarquent un identifiant Android vide :
+ils suffisent pour établir la clé de signature de Google, pas pour tester la connexion.
+
+**En attente** : le second client OAuth, qui dépend de l'envoi d'un AAB. Voir plus bas.
+
+## Pourquoi le client OAuth Android a été créé tardivement
+
+Pour mémoire, la raison du délai : la grille d'audit de Google exige que la vidéo de
+démonstration montre **l'ensemble des clients OAuth du projet**, et celle qui avait été
+soumise en montrait deux. En ajouter un troisième pendant l'examen l'aurait rendue
+incomplète, au risque d'une reprise qui aurait retardé l'App Store autant que le Play
+Store. Le coût d'attendre était faible, celui de ne pas attendre se comptait en
+semaines. La validation accordée le 20/11, le client a été créé le soir même.
+
+## Ce qui reste à faire
+
+1. **Envoyer un AAB existant** (versionCode 3) sur la piste de test interne du Play
+   Store. Cela fixe définitivement la clé de signature de Google.
+2. **Relever les deux empreintes** dans `Tester et publier` → `Configuration` →
+   `Intégrité de l'application`. Celle de la *clé de signature d'application* est la
+   seule qui compte pour l'application distribuée par le magasin.
+3. **Créer le second client OAuth Android** avec cette empreinte, même nom de paquet.
+   Les deux clients coexistent : Google choisit selon la signature du binaire qui
+   présente la requête.
+4. **Reconstruire** après le 01/12 (crédits EAS) et vérifier la connexion sur un
+   appareil. Un seul build suffit alors : il sera à la fois testable et publiable.
 
 ## Fiche Play Console
 
