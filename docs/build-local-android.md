@@ -60,27 +60,40 @@ l'API Windows refuse de créer le dossier, et `ninja` s'arrête. Déplacer le pr
 dans un dossier plus court ne suffit pas : on ne gagnerait qu'une trentaine de
 caractères sur les trois cents.
 
-La seule vraie correction est d'activer la prise en charge des chemins longs, qui est
-un réglage système et demande une élévation :
+### Ce qui ne suffit pas
+
+Activer la prise en charge des chemins longs de Windows est **nécessaire mais pas
+suffisant** :
 
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\FileSystem ^
   /v LongPathsEnabled /t REG_DWORD /d 1 /f
-```
-
-Puis redémarrer la machine, et au passage :
-
-```
 git config --global core.longpaths true
 ```
 
-Vérifier que c'est pris en compte :
+Fait le 20/11/2026, et la compilation a échoué exactement de la même façon. La raison :
+ce réglage n'a d'effet que pour un binaire qui le déclare dans son manifeste, et le
+`ninja` fourni avec CMake 3.22.1 est en version **1.10.2**, antérieure à la prise en
+charge des chemins longs (arrivée en 1.11). Inutile de redémarrer pour ce motif.
+
+### La correction
+
+Installer un CMake récent, qui embarque un `ninja` capable :
 
 ```
-powershell -NoProfile -Command "(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem').LongPathsEnabled"
+"%LOCALAPPDATA%\Android\Sdk\cmdline-tools\latest\bin\sdkmanager.bat" --install "cmake;3.31.6"
 ```
 
-La valeur doit être `1`. Elle était à `0` le 20/11/2026.
+CMake 3.31.6 fournit `ninja` 1.12.1. **Ne pas prendre une version 4.x** : elles ont
+supprimé la compatibilité avec les `CMakeLists` anciens, ce que React Native utilise
+encore.
+
+Installer ne suffit pas non plus : React Native épingle 3.22.1, et Gradle continuait
+de l'utiliser. D'où `plugins/cmake-version.js`, un greffon de configuration qui écrit
+la version voulue dans `app/build.gradle`. Il est déclaré dans `app.config.js` et
+survit donc aux `prebuild`, qui régénèrent ce fichier.
+
+Avec les deux, le build passe : **1 min 49 s**, APK installé sur l'appareil.
 
 ## Ensuite
 
@@ -91,6 +104,22 @@ tools\build-local.bat
 Le script pose les variables, lance `npx expo run:android` en debug et installe sur
 l'appareil branché. Compter quelques minutes la première fois — Gradle télécharge sa
 chaîne d'outils — puis beaucoup moins.
+
+Un build de debug charge son code depuis Metro, qu'il faut donc lancer à côté :
+
+```
+tools\metro.bat
+```
+
+Si le port 8081 est déjà pris par un autre projet, Expo bascule sur 8083 et
+l'application, elle, cherche toujours le 8081. Plutôt que de tuer le processus voisin,
+rouvrir l'application sur le bon port :
+
+```
+tools\ouvrir-app.ps1
+```
+
+à ajuster si l'adresse du poste ou le port changent.
 
 Appareil de test utilisé : Nokia 2.4 sous Android 12, branché en USB.
 

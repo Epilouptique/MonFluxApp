@@ -96,6 +96,10 @@ module.exports = {
       'expo-sqlite',
       'expo-secure-store',
       'expo-web-browser',
+      // Impose CMake 3.31.6 : la version épinglée par React Native embarque un ninja
+      // qui ne sait pas créer de chemin de plus de 260 caractères, ce qui empêche
+      // toute compilation locale sous Windows. Voir docs/build-local-android.md.
+      './plugins/cmake-version',
       // Depuis le SDK 51, la clé « splash » est ignorée sur Android : l'écran de
       // démarrage se configure par ce greffon. Sans lui, le fond restait blanc et
       // l'application s'ouvrait sur un flash lumineux avant son premier rendu sombre.
