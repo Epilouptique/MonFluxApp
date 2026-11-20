@@ -184,6 +184,26 @@ donc dessiné avec une marge de 28 %, sans quoi il serait amputé sur les lanceu
 ronds. Une variante monochrome sert aux thèmes dynamiques d'Android 13 et suivants.
 Le tout est produit par `_generateur-monflux.py android`.
 
+**Le thème sombre et l'écran de démarrage**, deux défauts qu'aucun test ne révèle et
+qu'un appareil aurait montrés trop tard. Générer le projet natif avec
+`npx expo prebuild --platform android --no-install --clean`, puis lire les fichiers
+produits, les a fait apparaître tous les deux :
+
+- `userInterfaceStyle` est ignoré sans `expo-system-ui` — `prebuild` l'écrit en clair
+  dans sa sortie. Le réglage est par ailleurs passé de `automatic` à `dark` :
+  l'interface est sombre en dur dans `src/theme.ts`, et annoncer `automatic` laissait
+  le système composer des éléments natifs clairs par-dessus une application sombre ;
+- depuis le SDK 51, la clé `splash` de la configuration n'a plus d'effet sur Android.
+  `android/app/src/main/res/values/colors.xml` portait donc toujours
+  `splashscreen_background` à `#FFFFFF` : l'application s'ouvrait sur un flash blanc
+  avant son premier rendu. L'écran de démarrage se configure par le greffon
+  `expo-splash-screen`, déclaré dans `plugins`.
+
+Le dossier `android/` est supprimé après chaque vérification : le projet reste géré
+par la configuration, pas par des fichiers natifs committés. Attention, `prebuild`
+réécrit aussi les scripts de `package.json` en `expo run:*` — les remettre à la main
+plutôt que par `git checkout`, qui emporterait au passage les dépendances ajoutées.
+
 ## Risques ouverts
 
 1. **Règles développeur YouTube.** L'agrégation de données API provenant de chaînes
@@ -219,15 +239,27 @@ accentuée. Encodeur PNG écrit à la main (zlib seul), donc aucune dépendance 
 et aucun binaire à committer sans savoir d'où il vient. Aucun élément de marque
 YouTube : interdit sur l'icône d'une application tierce.
 
-## État au 17/11/2026
+## État au 20/11/2026
 
-Phases 1 à 4 du plan écrites, compilées et empaquetées :
+**iOS — fonctionnel sur appareil, en attente de Google.** L'application tourne sur
+l'iPhone : connexion, synchronisation, lecteur, plein écran, Shorts, gestes de
+balayage. Les visuels de magasin et les champs App Store Connect sont prêts.
+La vérification OAuth de Google a été soumise le 19/11 et sa grille d'audit a reçu
+réponse ; tant qu'elle n'est pas accordée, l'écran de consentement reste limité aux
+utilisateurs de test, ce qui interdit une publication publique. Détails dans
+`docs/verification-google.md` et `docs/app-store.md`.
 
-- `tsc --noEmit` propre, 13 tests au vert ;
-- `expo-doctor` : 20/20 ;
-- `expo export --platform ios` : 1331 modules, 3,3 Mo, sans erreur ;
-- icônes et écran de démarrage générés.
+**Android — code prêt, publication bloquée en amont.** Le code, les visuels, les
+métadonnées et la configuration native sont faits et vérifiés (`tsc` propre, 13 tests
+au vert, `expo-doctor` 20/20, manifeste et ressources relus après `prebuild`). Deux
+décisions restent au propriétaire du projet, aucune n'est technique :
 
-Rien n'a encore tourné sur un appareil : aucun identifiant Google n'est créé, aucun
-projet EAS n'est initialisé. Prochaine étape réelle : `docs/google-cloud.md`, puis
-`npm run sonde`, qui valide les phases 0 à 2 sans aucun coût et sans iPhone.
+1. **Le client OAuth Android n'est volontairement pas créé.** La grille d'audit de
+   Google exige que la vidéo de démonstration montre l'ensemble des clients OAuth du
+   projet, et celle qui a été soumise en montre deux. En ajouter un troisième
+   maintenant rendrait la vidéo incomplète et relancerait l'examen. Sans ce client, la
+   connexion échoue sur Android : la publication sur le Play Store attend donc la fin
+   de la vérification iOS, puis la création du client et un nouveau build.
+2. **F-Droid suppose d'ouvrir le code** sous licence libre, dépôt public et
+   compilation depuis les sources. Recommandation documentée dans `docs/f-droid.md` :
+   ne pas viser le dépôt officiel, et envisager IzzyOnDroid ou un APK auto-hébergé.
