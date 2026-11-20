@@ -40,13 +40,14 @@ module.exports = {
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
-    userInterfaceStyle: 'automatic',
-    splash: {
-      image: './assets/splash-icon.png',
-      resizeMode: 'contain',
-      backgroundColor: '#FFFFFF',
-      dark: { image: './assets/splash-icon.png', backgroundColor: '#101012' },
-    },
+    // L'interface est sombre en dur (src/theme.ts) : annoncer « automatic » laisserait
+    // le système composer des éléments natifs clairs par-dessus une application sombre.
+    userInterfaceStyle: 'dark',
+
+    // expo-system-ui applique la couleur de fond à la racine native et rend
+    // userInterfaceStyle effectif sur Android ; sans lui, prebuild avertit que le
+    // réglage est ignoré et un fond blanc apparaît entre le démarrage et le rendu.
+    backgroundColor: '#0E0E10',
     ios: {
       // Identifiant DÉFINITIF après la première publication. Convention Dahu-Concept :
       // fr.dahuconcept.<appli>.
@@ -95,6 +96,19 @@ module.exports = {
       'expo-sqlite',
       'expo-secure-store',
       'expo-web-browser',
+      // Depuis le SDK 51, la clé « splash » est ignorée sur Android : l'écran de
+      // démarrage se configure par ce greffon. Sans lui, le fond restait blanc et
+      // l'application s'ouvrait sur un flash lumineux avant son premier rendu sombre.
+      [
+        'expo-splash-screen',
+        {
+          image: './assets/splash-icon.png',
+          imageWidth: 180,
+          resizeMode: 'contain',
+          backgroundColor: '#0E0E10',
+          dark: { backgroundColor: '#0E0E10' },
+        },
+      ],
     ],
     experiments: { typedRoutes: true },
     extra: {
