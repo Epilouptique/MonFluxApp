@@ -226,13 +226,17 @@ plutôt que par `git checkout`, qui emporterait au passage les dépendances ajou
 
 ## Risques ouverts
 
-1. **Règles développeur YouTube.** L'agrégation de données API provenant de chaînes
-   appartenant à des propriétaires différents est restreinte, et une application qui
-   reproduit une expérience de navigation comparable à YouTube doit apporter une
-   valeur indépendante significative. Le choix hybride réduit l'exposition — les
-   vidéos viennent de flux RSS publics, l'API ne sert qu'aux abonnements du titulaire
-   du compte et aux durées — mais **ne l'annule pas**. À trancher avant toute
-   publication sur l'App Store ; sans conséquence pour un usage personnel.
+1. **Règles développeur YouTube.** Instruit en détail le 21/11/2026 dans
+   `docs/regles-youtube.md`. Trois points d'exposition, et le choix hybride n'en est
+   pas la parade : il en est le premier. Le guide interdit de fusionner des données API
+   avec d'autres données, or l'application mêle abonnements et durées venus de l'API
+   avec des vidéos venues des flux RSS, sans distinction visible. S'y ajoutent la
+   question de la « valeur indépendante » — l'argument de vente est surtout soustractif
+   — et deux modifications du lecteur (`fs: 0`, déchargement des sous-titres) qui
+   suppriment des fonctions standard. Seule la troisième se corrige facilement.
+   Sanctions prévues : jusqu'à la fermeture du compte Google associé. Une demande
+   d'*API Compliance Audit* permet de poser la question avant de publier. Sans
+   conséquence pour un usage personnel.
 2. **Nom et marque.** « YouTube » ne peut pas figurer dans le nom de l'application
    ni dans son icône. D'où « Mon Flux ».
 3. **Compte Apple Developer** obligatoire pour installer sur l'iPhone (99 €/an).
