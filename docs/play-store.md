@@ -83,20 +83,49 @@ incomplète, au risque d'une reprise qui aurait retardé l'App Store autant que 
 Store. Le coût d'attendre était faible, celui de ne pas attendre se comptait en
 semaines. La validation accordée le 20/11, le client a été créé le soir même.
 
+## Les quatre clients OAuth et à quoi chacun sert
+
+Fait le 21/11/2026. C'est le point le plus facile à rater du projet, et celui qui
+produit le classique « ça marchait en test, plus depuis le magasin ».
+
+Google lie un client OAuth Android au couple **nom de paquet + empreinte SHA-1**. Or
+le même code produit des binaires portant des signatures différentes selon la façon
+dont ils ont été construits. Il faut donc un client par signature.
+
+| Client | Empreinte SHA-1 | Signe quoi | Où est déclaré l'identifiant |
+| --- | --- | --- | --- |
+| `Mon Flux Android (debug local)` | `FF:89:CB:4F:92:03:DB:4A:6D:FE:D5:73:C2:12:D3:A5:E2:F1:3F:87` | builds compilés en local (`tools\build-local.bat`) | `.env.local`, non versionné |
+| `Mon Flux Android (cle EAS)` | `68:24:38:03:70:1B:61:8D:6C:D3:CA:FC:85:95:E7:B3:C7:79:7B:13` | APK construits par EAS et installés à la main | environnement EAS `preview` |
+| `Mon Flux Android (cle Play Store)` | `14:A6:9F:E6:59:B8:1F:A2:E2:B0:3F:D2:93:55:A8:38:E4:7F:9A:1C` | l'application telle que distribuée par le magasin | environnement EAS `production` |
+| `Mon Flux Web` | — | audience du jeton d'identité exigée par le SDK natif | les trois, et `.env.local` |
+
+**Le piège, précisément** : un AAB envoyé au Play Store est **resigné par Google**
+avec sa propre clé. L'empreinte qui compte à l'exécution n'est donc pas celle d'EAS,
+qui n'est que la *clé d'importation*, mais celle de la *clé de signature
+d'application* générée par Google. D'où l'environnement `production` pointant vers le
+troisième client et non le second.
+
+Les variables EAS sont **une par environnement**. Attention : `eas env:set` modifie la
+variable existante, et si elle est rattachée à plusieurs environnements, elle change
+partout. Pour des valeurs distinctes, il faut supprimer puis recréer une variable par
+environnement.
+
 ## Ce qui reste à faire
 
-1. **Envoyer un AAB existant** (versionCode 3) sur la piste de test interne du Play
-   Store. Cela fixe définitivement la clé de signature de Google.
-2. **Relever les deux empreintes** dans `Tester et publier` → `Configuration` →
-   `Intégrité de l'application`. Celle de la *clé de signature d'application* est la
-   seule qui compte pour l'application distribuée par le magasin.
-3. **Créer le second client OAuth Android** avec cette empreinte, même nom de paquet.
-   Les deux clients coexistent : Google choisit selon la signature du binaire qui
-   présente la requête.
-4. **Reconstruire** après le 01/12 (crédits EAS) et vérifier la connexion sur un
-   appareil. Un seul build suffit alors : il sera à la fois testable et publiable.
+1. **Reconstruire** après le 01/12 (crédits EAS épuisés) : le dernier AAB est antérieur
+   au SDK natif Google Sign-In, sa connexion ne fonctionnerait pas.
+2. **Compléter la fiche** du magasin : visuels, déclaration « sécurité des données »,
+   classification du contenu — tout est rédigé plus bas.
+3. **Ajouter des testeurs internes** avant de déployer la release, aujourd'hui en
+   brouillon.
 
 ## Fiche Play Console
+
+Application créée dans la Play Console le 21/11/2026 : identifiant
+`4972852064536423344`, compte développeur Dahu-Concept, langue par défaut fr-FR,
+gratuite. Une release de test interne existe **en brouillon** avec l'AAB versionCode 3,
+envoyé uniquement pour fixer la clé de signature de Google. Elle n'est pas déployée et
+ne doit pas l'être en l'état.
 
 | Champ | Valeur |
 | --- | --- |
