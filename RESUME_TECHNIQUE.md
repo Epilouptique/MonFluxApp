@@ -184,6 +184,26 @@ donc dessiné avec une marge de 28 %, sans quoi il serait amputé sur les lanceu
 ronds. Une variante monochrome sert aux thèmes dynamiques d'Android 13 et suivants.
 Le tout est produit par `_generateur-monflux.py android`.
 
+**Le mécanisme de connexion lui-même**, découvert le 21/11 en testant sur appareil.
+L'application s'appuie sur `expo-auth-session`, qui ouvre le navigateur et revient par
+un schéma d'URI personnalisé (`fr.dahuconcept.monflux:/oauthredirect`). Google répond
+`Erreur 400 : invalid_request — Custom URI scheme is not enabled for your Android
+client`.
+
+Ce n'est pas un réglage oublié. Google juge ce mécanisme vulnérable à l'usurpation
+d'application : il était désactivé par défaut sur les clients Android, et l'option
+« Enable custom URI scheme » a depuis **disparu de la console**. Leur documentation est
+explicite : « Custom URI schemes are no longer supported on Android and Chrome apps ».
+Vérifié dans les deux interfaces de la console, l'ancienne redirigeant vers la nouvelle.
+
+**Conséquence** : le flux par navigateur qui fonctionne sur iOS ne peut pas fonctionner
+sur Android, et aucune configuration ne le rendra possible. Android doit passer par le
+SDK natif Google Sign-In, qui s'authentifie via le client Android (nom de paquet +
+empreinte SHA-1) sans jamais utiliser d'URL de retour. Les trois clients Android créés
+restent donc nécessaires — c'est exactement ce que ce SDK consomme.
+
+iOS n'est pas touché : les schémas personnalisés y restent la norme.
+
 **Le thème sombre et l'écran de démarrage**, deux défauts qu'aucun test ne révèle et
 qu'un appareil aurait montrés trop tard. Générer le projet natif avec
 `npx expo prebuild --platform android --no-install --clean`, puis lire les fichiers
