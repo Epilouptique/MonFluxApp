@@ -1,4 +1,4 @@
-Get-Content 'C:\Dev\MonFluxApp\tools\journal-build.txt' -Tail 12
-Write-Output '---PAQUET-SUR-APPAREIL'
-$adb = Join-Path $env:LOCALAPPDATA 'Android\Sdk\platform-tools\adb.exe'
-& $adb -s PT99651AA1111403004 shell pm list packages fr.dahuconcept.monflux
+$motifs = 'BUILD SUCCESSFUL', 'BUILD FAILED', 'ninja: error', 'Installing', 'error:', 'FAILURE', 'cle-debug'
+Select-String -Path 'C:\Dev\MonFluxApp\tools\journal-build.txt' -Pattern $motifs |
+  Select-Object -Last 15 |
+  ForEach-Object { $_.Line.Trim() }

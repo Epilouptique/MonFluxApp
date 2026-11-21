@@ -108,6 +108,9 @@ module.exports = {
       // qui ne sait pas créer de chemin de plus de 260 caractères, ce qui empêche
       // toute compilation locale sous Windows. Voir docs/build-local-android.md.
       './plugins/cmake-version',
+      // Signe les builds de debug avec la clé du profil utilisateur plutôt qu'avec
+      // celle, universelle, du gabarit React Native. Voir l'en-tête du greffon.
+      './plugins/cle-debug',
       // SDK natif Google Sign-In. Seul chemin possible sur Android depuis que Google
       // a cessé de prendre en charge les schémas d'URI personnalisés ; iOS continue
       // d'utiliser expo-auth-session. Voir l'en-tête de src/auth.ts.
