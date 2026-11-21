@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Base locale SQLite. Deux natures de données strictement séparées :
 //   - cache YouTube (chaines, videos) : purgeable, soumis aux 30 jours des règles YouTube ;
 //   - états de lecture (etats) : nos données, conservées sans limite de durée.

@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Lecteur : IFrame Player API officielle dans une WebView — WKWebView sur iOS, WebView
 // système sur Android, le code est le même. Le lecteur YouTube garde
 // ses fonctions (commandes, plein écran, liens, publicités) ; nous n'en retirons rien,

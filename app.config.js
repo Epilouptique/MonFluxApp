@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Configuration Expo, prête pour EAS. Toutes les valeurs variables passent par
 // l'environnement (voir docs/google-cloud.md et docs/commandes-build.md).
 

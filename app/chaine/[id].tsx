@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Flux filtré sur une seule chaîne.
 
 import React, { useEffect, useState } from 'react';

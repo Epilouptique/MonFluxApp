@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Flux RSS publics de YouTube : https://www.youtube.com/feeds/videos.xml?channel_id=...
 // Quinze dernières vidéos par chaîne, sans clé, sans jeton et sans quota. C'est la source
 // des nouvelles vidéos ; l'API ne sert qu'aux abonnements et aux durées.

@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Liste des chaînes suivies, avec recherche : à 161 abonnements, faire défiler n'est
 // plus une option. Appui : le flux filtré sur cette chaîne. Œil : masquer la chaîne du
 // flux (filtre local, l'abonnement YouTube n'est pas touché).

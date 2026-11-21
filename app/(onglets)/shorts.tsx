@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Les Shorts, isolés : ils n'encombrent plus le flux mais restent accessibles quand
 // c'est ce qu'on cherche.
 

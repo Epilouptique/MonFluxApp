@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 //
 // Connexion Google, par deux chemins différents selon la plateforme. Ce n'est pas un
 // choix d'architecture mais une contrainte de Google, découverte le 21/11/2026 en

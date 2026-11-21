@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Vidéos enregistrées pour plus tard. Elles survivent à la purge des 30 jours.
 
 import React from 'react';

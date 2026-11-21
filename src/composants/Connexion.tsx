@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Premier écran : liaison du compte Google. Rien d'autre n'est demandé que la lecture
 // des abonnements, et c'est dit ici plutôt que dans des conditions d'utilisation.
 

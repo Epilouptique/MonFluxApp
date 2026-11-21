@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // L'analyse du flux RSS est le cœur de la récupération des vidéos : c'est la partie
 // qui doit tenir si YouTube modifie des détails de forme.
 

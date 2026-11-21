@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Le flux : ce qui reste à voir. Ni les vidéos déjà vues, ni les Shorts — c'est la
 // logique d'un lecteur de flux, la liste se vide à mesure qu'on la consulte.
 

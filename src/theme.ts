@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Palette sombre unique pour la v1 : une application de lecture vidéo se regarde le soir.
 
 export const T = {

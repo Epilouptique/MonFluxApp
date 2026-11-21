@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // État partagé : session Google et déclenchement de l'actualisation. Les filtres
 // d'affichage ne sont plus ici : chaque onglet déclare ce qu'il montre, il n'y a donc
 // plus de réglage global susceptible de le contredire.

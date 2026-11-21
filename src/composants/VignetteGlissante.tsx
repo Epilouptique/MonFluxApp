@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Glissement sur une vignette : vers la droite pour enregistrer dans « À regarder »,
 // vers la gauche pour marquer comme vue.
 //

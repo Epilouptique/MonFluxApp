@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Tout ce qui a été récupéré : vidéos déjà vues et Shorts compris. C'est ici qu'on
 // retrouve une vidéo écartée du flux.
 

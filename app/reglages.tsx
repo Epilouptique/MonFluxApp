@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Réglages, atteints par le bouton « … » de l'en-tête. Volontairement nus : les
 // filtres d'affichage sont désormais portés par les onglets eux-mêmes, il ne reste
 // ici que ce qui est vraiment un réglage.

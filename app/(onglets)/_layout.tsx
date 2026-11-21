@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Cinq espaces, sans libellés. L'ordre place le flux au centre, sous l'icône de
 // l'application : c'est l'écran par défaut, celui qui ne montre que ce qui reste à voir.
 // Les réglages ne sont plus un onglet mais un bouton dans l'en-tête : on y va rarement.

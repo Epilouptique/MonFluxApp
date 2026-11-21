@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Appels à l'API YouTube Data v3, réduits au strict nécessaire pour tenir dans le quota
 // gratuit (10 000 unités/jour) :
 //   - subscriptions.list : 1 unité par page de 50 abonnements, une fois par synchro ;

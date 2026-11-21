@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Orchestration d'une actualisation : abonnements (API, rarement) → nouvelles vidéos (RSS)
 // → durées des seules vidéos inconnues (API). Coût typique d'une ouverture : 1 à 3 unités
 // de quota, l'essentiel du trafic passant par les flux RSS gratuits.

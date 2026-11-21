@@ -47,7 +47,7 @@
   },
   "private": true,
   "author": "Hugo Vial-Jaime",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "jest": {
     "preset": "jest-expo",
     "testMatch": [

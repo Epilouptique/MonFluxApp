@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Vignette du flux : miniature YouTube d'origine, titre, chaîne, date, durée,
 // indicateur vu/non vu et bouton d'enregistrement.
 

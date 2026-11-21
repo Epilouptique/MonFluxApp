@@ -17,14 +17,26 @@ npx expo start --dev-client
 La création des identifiants Google est décrite dans `docs/google-cloud.md`, les
 commandes de build dans `docs/commandes-build.md`, la fiche App Store dans
 `docs/app-store.md`, la fiche Play Store et le piège des signatures dans
-`docs/play-store.md`, et l'étude F-Droid dans `docs/f-droid.md`. **Expo Go ne convient pas pour ce
-projet** : Google refuse son URL de retour OAuth. Il faut un build de développement.
+`docs/play-store.md`, et l'étude F-Droid dans `docs/f-droid.md`. **Expo Go ne convient
+pas pour ce projet** : Google refuse son URL de retour OAuth côté iOS, et il n'embarque
+pas le SDK natif exigé côté Android. Il faut un build de développement.
 
 ```bat
 npm run verifier      :: tsc --noEmit + jest
 npm run doctor        :: expo-doctor
 node tools/icones.mjs :: régénère les icônes
 ```
+
+## Deux mécanismes de connexion, par contrainte de Google
+
+Sur iOS, OAuth 2.0 + PKCE dans le navigateur. Sur Android, le SDK natif Google
+Sign-In : Google ne prend plus en charge les schémas d'URI personnalisés sur cette
+plateforme, ce qui condamne le flux par navigateur. `src/auth.ts` expose la même API
+dans les deux cas ; le reste de l'application ignore la différence.
+
+Conséquence pour F-Droid : la dépendance aux services Google Play rend l'application
+inéligible à leur dépôt principal, et ouvrir le code n'y change rien. Détails dans
+`docs/f-droid.md`.
 
 ## Valider la faisabilité sans iPhone
 
@@ -57,4 +69,10 @@ envoyé à YouTube. Les vidéos sont lues dans le lecteur officiel YouTube, inta
 notifications, pas de téléchargement, pas de lecture en arrière-plan, pas de
 synchronisation entre appareils.
 
-© Hugo Vial-Jaime — Dahu-Concept. Tous droits réservés.
+## Licence
+
+MIT — voir `LICENSE`. Licence permissive choisie délibérément : la GPL est réputée
+incompatible avec les conditions de l'App Store, qui imposent des restrictions d'usage
+que le copyleft interdit.
+
+© 2026 Hugo Vial-Jaime — Dahu-Concept

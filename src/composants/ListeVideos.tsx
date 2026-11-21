@@ -1,4 +1,4 @@
-// Tous droits réservés — Hugo Vial-Jaime / Dahu-Concept
+// Mon Flux - Hugo Vial-Jaime / Dahu-Concept - licence MIT, voir LICENSE
 // Liste chronologique partagée par tous les onglets. Chaque onglet déclare lui-même
 // ce qu'il montre : il n'y a plus de réglage global d'affichage qui viendrait le
 // contredire.
