@@ -69,8 +69,10 @@ function pageLecteur(videoId: string, lectureAuto: boolean): string {
         // dialoguer avec l'intégration.
         origin: ${JSON.stringify(ORIGINE)},
         enablejsapi: 1,
-        // 0 = ne pas forcer les sous-titres. Ne suffit pas toujours : le lecteur
-        // applique aussi la préférence du compte YouTube, d'où unloadModule ci-dessous.
+        // 0 = ne pas activer les sous-titres par défaut. Paramètre officiel du lecteur.
+        // Il ne l'emporte pas sur une préférence de compte qui force les sous-titres :
+        // dans ce cas, c'est le réglage YouTube de l'utilisateur qu'il faut changer, pas
+        // à l'application de supprimer la fonction pour tout le monde (voir onReady).
         cc_load_policy: 0,
         hl: 'fr',
         // Bouton de plein écran de YouTube masqué : il s'appuie sur l'API de plein
@@ -80,9 +82,13 @@ function pageLecteur(videoId: string, lectureAuto: boolean): string {
       },
       events: {
         onReady: function(e){
-          // Décharge le module de sous-titres : c'est le seul moyen fiable de passer
-          // outre une préférence de compte qui les active systématiquement.
-          try { e.target.unloadModule('captions'); e.target.unloadModule('cc'); } catch (x) {}
+          // Le module de sous-titres était déchargé ici, pour passer outre une
+          // préférence de compte qui les active systématiquement. Retiré le 21/11/2026 :
+          // les règles développeur de YouTube interdisent de modifier, ajouter ou
+          // bloquer les fonctions de lecture standard, et décharger ce module retirait
+          // à l'utilisateur la possibilité même d'activer les sous-titres. Le confort
+          // d'un seul ne justifie pas de supprimer une fonction pour tous, et
+          // cc_load_policy suffit dans le cas général. Voir docs/regles-youtube.md.
           post({ type: 'pret' });
         },
         onStateChange: function(e){

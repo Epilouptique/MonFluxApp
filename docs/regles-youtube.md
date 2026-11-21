@@ -73,20 +73,29 @@ liens vers les vidéos associées.
 
 Le lecteur est actuellement configuré avec :
 
-| Paramètre | Effet | Risque |
+| Paramètre | Effet | Statut |
 | --- | --- | --- |
-| `fs: 0` | supprime le bouton plein écran natif, remplacé par le nôtre | élevé |
-| `unloadModule('captions')` | décharge le module de sous-titres | élevé |
-| `rel: 0` | limite les vidéos associées à la même chaîne | modéré |
-| `modestbranding` | réduit le logo | faible, paramètre officiel |
-| `cc_load_policy: 0` | n'active pas les sous-titres par défaut | faible |
+| ~~`unloadModule('captions')`~~ | déchargeait le module de sous-titres | **retiré le 21/11/2026** |
+| `fs: 0` | masque le bouton plein écran natif, remplacé par le nôtre | conservé, défendable |
+| `rel: 0` | limite les vidéos associées à la même chaîne | paramètre officiel |
+| `modestbranding` | réduit le logo | paramètre officiel |
+| `cc_load_policy: 0` | n'active pas les sous-titres par défaut | paramètre officiel |
 
-Les deux premiers suppriment des fonctions standard du lecteur. Ils ont été ajoutés
-pour des raisons d'ergonomie — sous-titres s'activant tout seuls, plein écran qui ne
-fonctionnait pas correctement — pas pour contourner quoi que ce soit, mais le texte ne
-s'intéresse pas à l'intention.
+`unloadModule` était le seul réglage véritablement problématique : il ne désactivait
+pas un comportement par défaut, il **retirait à l'utilisateur la possibilité même**
+d'activer les sous-titres. Il avait été ajouté parce qu'une préférence de compte
+YouTube peut forcer les sous-titres malgré `cc_load_policy: 0`. Retiré : le confort
+d'un utilisateur ne justifie pas de supprimer une fonction pour tous, et le réglage se
+corrige dans le compte YouTube de l'intéressé.
 
-**C'est le seul des trois points qui se corrige en une heure de travail.**
+`fs: 0` est conservé, et c'est défendable. Le bouton natif s'appuie sur l'API de plein
+écran du navigateur, que WKWebView refuse à une page embarquée : le laisser visible
+afficherait une commande inopérante à côté de la nôtre. On ne masque donc pas une
+fonction qui marche, on en remplace une qui ne peut pas marcher dans ce contexte — et
+le guide accepte des contrôles de lecture personnalisés tant qu'ils n'entrent pas en
+conflit avec l'interface du lecteur.
+
+Les trois derniers sont des paramètres documentés du lecteur, prévus par Google.
 
 ## Ce que risque le projet
 
@@ -114,21 +123,56 @@ un pari en réponse.
 
 ## Les options, et ce qu'elles coûtent
 
+### La vraie question n'est pas le nombre d'utilisateurs
+
+Il n'existe pas de demi-publication. Dès qu'une fiche existe sur un magasin,
+l'application est trouvable et installable par tout le monde, même si trois personnes
+l'utilisent en pratique. La distinction utile n'est donc pas « peu » contre « beaucoup
+d'utilisateurs », mais **avec ou sans fiche publique** :
+
+| Mode | Qui peut l'installer | Fiche publique | Mises à jour |
+| --- | --- | --- | --- |
+| Play Store, **test interne** | jusqu'à 100 personnes invitées nommément | non | automatiques, le build n'expire pas |
+| App Store, **TestFlight** | invités par lien | non | automatiques, mais **le build expire à 90 jours** |
+| iOS, **build de développement** | appareils enregistrés nommément dans le compte développeur | non | manuelles ; profil valable un an au plus |
+| **Fiche publique** sur l'un ou l'autre magasin | tout le monde | oui | automatiques |
+
+Juridiquement, les règles s'appliquent dès le premier appel à l'API, fiche publique ou
+pas. En pratique la différence est réelle : une fiche publique est trouvable, indexée,
+examinable et signalable. C'est elle qui expose la question de la « valeur
+indépendante », puisque c'est à ce moment-là qu'on offre au public une application
+reproduisant une expérience YouTube.
+
+### Les options
+
 | Option | Risque | Coût | Pour qui |
 | --- | --- | --- | --- |
-| **Usage personnel seul** | quasi nul | aucun — tout est déjà fait | si l'application était d'abord pour soi |
-| **Corriger puis demander l'audit** | faible | quelques heures + plusieurs semaines d'attente | si la publication compte vraiment |
+| **Sans fiche publique** | quasi nul | aucun — tout est déjà fait | si l'application est d'abord pour soi et ses proches |
+| **Corriger puis demander l'audit** | faible | quelques heures + plusieurs semaines d'attente | si la fiche publique compte |
 | **Corriger puis publier sans demander** | réel mais modéré | quelques heures | si l'on accepte une révocation possible |
 | **Publier en l'état** | le plus élevé | aucun | déconseillé |
 
 Les corrections visées sont, par ordre d'efficacité :
 
-1. rétablir le bouton plein écran et le module de sous-titres du lecteur ;
+1. ~~rétablir le module de sous-titres~~ — **fait le 21/11/2026** ;
 2. distinguer visiblement, dans l'interface, ce qui vient de l'API et ce qui vient des
    flux RSS — ou renoncer aux flux RSS et revenir à l'API seule, ce qui coûte du quota
    mais supprime la question ;
 3. renforcer la valeur ajoutée par des fonctions qui n'existent pas chez YouTube, pour
    que l'argument ne soit plus seulement soustractif.
+
+Les deux dernières ne sont **pas** engagées pour l'instant, et c'est délibéré :
+démonter une architecture qui fonctionne sur la foi d'une interprétation serait
+prématuré. C'est précisément ce que l'audit doit trancher.
+
+## Décision prise le 21/11/2026
+
+Viser la **fiche publique**, et demander l'audit avant. Le délai de réponse n'est pas
+un problème : l'application fonctionne déjà pour son auteur et ses proches par les
+voies sans fiche publique. Selon le retour, on ajustera, et dans le pire des cas on
+renoncera à la fiche publique en conservant la distribution privée.
+
+En attendant, l'architecture reste inchangée.
 
 ## Ce que je ne peux pas trancher
 
