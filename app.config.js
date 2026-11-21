@@ -12,10 +12,18 @@ const CLIENT_ID_IOS =
   '631781454408-blrur2jpjqon057grudqe5necn6rj2tf.apps.googleusercontent.com';
 
 // Client OAuth « Android », distinct du client iOS : Google le lie au nom de paquet et
-// à l'empreinte SHA-1 du certificat de signature. Il n'existe pas encore (voir
-// docs/google-cloud.md) ; sans lui, l'application se construit et s'installe, mais la
-// connexion Google échoue.
+// à l'empreinte SHA-1 du certificat de signature. Il en faut donc un PAR CLÉ DE
+// SIGNATURE — debug local, clé EAS, clé du Play Store. Aucune valeur par défaut ici :
+// celle qui convient dépend de la façon dont le binaire a été signé, et c'est
+// .env.local (local) ou l'environnement EAS (build) qui tranche.
 const CLIENT_ID_ANDROID = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID || '';
+
+// Client OAuth « Web ». Le SDK natif Google Sign-In l'exige comme audience du jeton
+// d'identité ; il ne donne accès à rien par lui-même et son code secret n'est ni
+// utilisé ni embarqué dans l'application.
+const CLIENT_ID_WEB =
+  process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+  '631781454408-fah3od880i20i34191gb7il4mub22nq5.apps.googleusercontent.com';
 
 // Identifiant applicatif commun aux deux plateformes. DÉFINITIF après publication :
 // le changer revient à publier une nouvelle application.
@@ -100,6 +108,10 @@ module.exports = {
       // qui ne sait pas créer de chemin de plus de 260 caractères, ce qui empêche
       // toute compilation locale sous Windows. Voir docs/build-local-android.md.
       './plugins/cmake-version',
+      // SDK natif Google Sign-In. Seul chemin possible sur Android depuis que Google
+      // a cessé de prendre en charge les schémas d'URI personnalisés ; iOS continue
+      // d'utiliser expo-auth-session. Voir l'en-tête de src/auth.ts.
+      '@react-native-google-signin/google-signin',
       // Depuis le SDK 51, la clé « splash » est ignorée sur Android : l'écran de
       // démarrage se configure par ce greffon. Sans lui, le fond restait blanc et
       // l'application s'ouvrait sur un flash lumineux avant son premier rendu sombre.
@@ -118,6 +130,7 @@ module.exports = {
     extra: {
       googleIosClientId: CLIENT_ID_IOS,
       googleAndroidClientId: CLIENT_ID_ANDROID,
+      googleWebClientId: CLIENT_ID_WEB,
       identifiantApplicatif: IDENTIFIANT,
       // Projet EAS @dahuconcept/monflux. L'identifiant n'est pas un secret (il figure
       // dans les builds) ; il est écrit ici parce qu'une configuration dynamique ne

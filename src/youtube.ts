@@ -6,21 +6,34 @@
 // Les nouvelles vidéos elles-mêmes arrivent par les flux RSS publics (voir rss.ts),
 // qui ne consomment aucun quota.
 
-import { jetonAcces } from './auth';
+import { invaliderJetonAcces, jetonAcces } from './auth';
 import { classerShort, dureeIsoEnSecondes, rapportEmbed, SEUIL_SHORT_S } from './format';
 
 const BASE = 'https://www.googleapis.com/youtube/v3';
 
 export { SEUIL_SHORT_S };
 
-async function appeler<T>(chemin: string, parametres: Record<string, string>): Promise<T> {
+/**
+ * Un 401 ne veut pas dire que la session est perdue : le SDK Android sert son jeton
+ * depuis un cache sans vérifier qu'il est encore valide. On le jette et on réessaie une
+ * fois ; si le second appel échoue aussi, la session est bel et bien close.
+ */
+async function appeler<T>(
+  chemin: string,
+  parametres: Record<string, string>,
+  secondEssai = false,
+): Promise<T> {
   const jeton = await jetonAcces();
   const url = `${BASE}/${chemin}?${new URLSearchParams(parametres).toString()}`;
   const r = await fetch(url, { headers: { Authorization: `Bearer ${jeton}` } });
   if (!r.ok) {
     const corps = await r.text().catch(() => '');
     if (r.status === 403 && corps.includes('quotaExceeded')) throw new Error('QUOTA_DEPASSE');
-    if (r.status === 401) throw new Error('NON_CONNECTE');
+    if (r.status === 401) {
+      if (secondEssai) throw new Error('NON_CONNECTE');
+      await invaliderJetonAcces();
+      return appeler<T>(chemin, parametres, true);
+    }
     throw new Error(`API YouTube ${r.status} : ${corps.slice(0, 200)}`);
   }
   return (await r.json()) as T;
