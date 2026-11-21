@@ -273,18 +273,20 @@ balayage. Les visuels de magasin et les champs App Store Connect sont prêts, et
 rien ne retient l'examen d'Apple. Détails dans `docs/verification-google.md` et
 `docs/app-store.md`.
 
-**Android — code prêt, premier client OAuth créé, build en attente de crédits.** Le
-code, les visuels, les métadonnées et la configuration native sont faits et vérifiés
-(`tsc` propre, 13 tests au vert, `expo-doctor` 20/20, manifeste et ressources relus
-après `prebuild`). Le client OAuth lié à la clé EAS a été créé le 20/11 au soir et
-enregistré dans les environnements EAS `preview` et `production`.
+**Android — fonctionnel sur appareil depuis le 21/11.** Connexion Google, obtention du
+jeton et appel à l'API YouTube vérifiés de bout en bout sur un Nokia 2.4 sous
+Android 12, depuis un build compilé en local. Le compte d'essai n'était pas un
+utilisateur de test, ce qui confirme au passage que la validation Google est active en
+production. Son compte n'ayant aucun abonnement, c'est l'état vide qui s'affiche, et il
+s'affiche correctement.
 
-Deux choses restent, dont une seule est technique :
+Reste deux points, dont un seul est technique :
 
-1. **Les crédits de build EAS sont épuisés** jusqu'au 01/12. Aucun binaire embarquant
-   le nouvel identifiant n'a donc encore tourné : la connexion Android reste non
-   vérifiée sur appareil. Les deux AAB déjà construits portent un identifiant vide —
-   suffisants pour fixer la clé de signature du Play Store, pas pour tester. Suite des
+1. **Rien n'a encore été construit par EAS avec cette authentification**, les crédits
+   du mois étant épuisés jusqu'au 01/12. Les deux AAB déjà produits sont antérieurs au
+   SDK natif : ils servent à fixer la clé de signature du Play Store, pas à être
+   publiés. Il faudra aussi un client OAuth Android par clé de signature — celui de la
+   clé EAS existe, celui de la clé de Google attend l'envoi d'un AAB. Suite des
    opérations dans `docs/play-store.md`.
 2. **F-Droid suppose d'ouvrir le code** sous licence libre, dépôt public et
    compilation depuis les sources. Décision du propriétaire, pas une question
