@@ -38,6 +38,16 @@ Conséquence pour F-Droid : la dépendance aux services Google Play rend l'appli
 inéligible à leur dépôt principal, et ouvrir le code n'y change rien. Détails dans
 `docs/f-droid.md`.
 
+## Installer sans passer par un magasin
+
+Les APK sont publiés en *release* de ce dépôt. Pour une installation ponctuelle, il
+suffit de télécharger le fichier et de l'ouvrir sur l'appareil.
+
+Pour recevoir les mises à jour automatiquement,
+[Obtainium](https://github.com/ImranR98/Obtainium) surveille ce dépôt : y ajouter
+l'URL `https://github.com/Epilouptique/MonFluxApp`. La marche à suivre côté
+publication est dans `docs/distribution-directe.md`.
+
 ## Valider la faisabilité sans iPhone
 
 ```powershell
