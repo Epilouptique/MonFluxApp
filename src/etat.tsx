@@ -68,16 +68,27 @@ export function FournisseurEtat({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let annule = false;
     (async () => {
-      await db.ouvrir();
-      // Activé par défaut : toucher une vidéo pour la regarder est le geste attendu,
-      // le double appui actuel est une étape de trop.
-      const direct = await db.lireReglage(CLE_LANCER_DIRECT);
-      const ok = await auth.estConnecte();
-      if (annule) return;
-      setLancerDirect(direct == null ? true : direct === '1');
-      setConnecte(ok);
-      setPret(true);
-      if (ok) void actualiser();
+      try {
+        await db.ouvrir();
+        // Activé par défaut : toucher une vidéo pour la regarder est le geste attendu,
+        // le double appui actuel est une étape de trop.
+        const direct = await db.lireReglage(CLE_LANCER_DIRECT);
+        const ok = await auth.estConnecte();
+        if (annule) return;
+        setLancerDirect(direct == null ? true : direct === '1');
+        setConnecte(ok);
+        setPret(true);
+        if (ok) void actualiser();
+      } catch (e) {
+        // Sans ce filet, la moindre panne au démarrage laisse « pret » à false et
+        // l'application reste sur un écran vide, sans le moindre message : le pire
+        // des symptômes, puisqu'il ne dit rien de sa cause.
+        if (annule) return;
+        setErreur(
+          `Démarrage incomplet : ${e instanceof Error ? e.message : String(e)}`,
+        );
+        setPret(true);
+      }
     })();
     return () => {
       annule = true;

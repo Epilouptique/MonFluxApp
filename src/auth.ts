@@ -103,9 +103,13 @@ const ERREUR_EXPO_GO =
 let configure = false;
 
 /**
- * `configure` est synchrone et idempotent, mais inutile de le rejouer à chaque appel.
  * Le webClientId sert d'audience au jeton d'identité ; il ne donne accès à rien par
  * lui-même, et le code secret du client Web n'est ni utilisé ni embarqué.
+ *
+ * `configure` rend la main immédiatement mais prépare le module en arrière-plan, et
+ * les appels synchrones du SDK (`hasPreviousSignIn`, `getCurrentUser`) échouent s'ils
+ * le devancent. On l'appelle donc dès le chargement du module, bien avant le premier
+ * écran, plutôt qu'au premier usage.
  */
 function preparerAndroid(): void {
   if (configure) return;
@@ -116,6 +120,8 @@ function preparerAndroid(): void {
   configure = true;
 }
 
+if (ANDROID) preparerAndroid();
+
 // ——————————————————————————— iOS : navigateur ————————————————————————————
 
 /** Jeton d'accès en mémoire : court (≈1 h), jamais écrit sur le disque. */
@@ -123,12 +129,24 @@ let acces: { jeton: string; expireLe: number } | null = null;
 
 // —————————————————————————————— API commune ——————————————————————————————
 
+/**
+ * Appelée au tout premier rendu : elle ne doit jamais lever. Un échec ici veut dire
+ * « pas de session utilisable », pas « l'application ne démarre pas ».
+ */
 export async function estConnecte(): Promise<boolean> {
   if (ANDROID) {
     preparerAndroid();
-    return GoogleSignin.hasPreviousSignIn();
+    try {
+      return GoogleSignin.hasPreviousSignIn();
+    } catch {
+      return false;
+    }
   }
-  return (await SecureStore.getItemAsync(CLE_RAFRAICHISSEMENT)) !== null;
+  try {
+    return (await SecureStore.getItemAsync(CLE_RAFRAICHISSEMENT)) !== null;
+  } catch {
+    return false;
+  }
 }
 
 /** Demande l'accord de l'utilisateur et ouvre la session. */
