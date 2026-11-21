@@ -93,20 +93,57 @@ Store » :
 | **IzzyOnDroid** | Dépôt public, licence libre, APK publié en *release* GitHub. Pas de compilation par leurs soins. Ce dépôt est consultable depuis le client F-Droid. | Quelques jours |
 | **APK sur dahu-concept.fr** | Rien d'autre que le fichier. Le code peut rester fermé. | Immédiat |
 
-La seconde a un avantage inattendu : l'APK étant signé par **ta** clé, l'empreinte ne
-change pas, et un seul client OAuth suffit.
+> **Caduc depuis le 21/11/2026.** IzzyOnDroid s'est révélé fermé lui aussi : voir la
+> conclusion en fin de document.
 
-## Si tu décides quand même d'y aller
+## Conclusion du 21/11/2026 : les deux dépôts sont fermés
 
-L'ordre serait :
+Le code a été ouvert ce jour-là sous licence MIT — pour la cohérence du projet, pas
+pour F-Droid. Entre-temps, l'instruction a montré que **ni le dépôt officiel ni
+IzzyOnDroid ne sont accessibles**, et pour des motifs qui ne dépendent plus de la
+licence.
 
-1. Choisir la licence, ajouter `LICENSE` et remplacer `"license": "UNLICENSED"`.
-2. Rendre le dépôt GitHub public.
-3. Attendre la validation Google — inutile de proposer à F-Droid une application dont
-   la connexion est plafonnée à 100 utilisateurs.
-4. Ajouter les métadonnées `fastlane/` (déjà préparées dans ce dépôt, elles servent
-   aussi au Play Store et à IzzyOnDroid).
-5. Déposer une *Request For Packaging* sur le GitLab de F-Droid, puis la recette de
-   compilation.
-6. Après leur première compilation, relever l'empreinte SHA-1 de leur clé et créer le
-   client OAuth Android correspondant.
+### Dépôt officiel F-Droid : la dépendance aux services Google Play
+
+Leur politique d'inclusion interdit les bibliothèques propriétaires et cite nommément
+les services Google Play ; une application qui ne peut pas être recompilée chez eux
+pour cette raison est rejetée. Or la connexion Android passe désormais par le SDK natif
+Google Sign-In, donc par `play-services-auth`, Google ayant cessé de prendre en charge
+les schémas d'URI personnalisés sur Android (voir `RESUME_TECHNIQUE.md`).
+
+Certains projets contournent cela par une variante de build dépourvue de dépendances
+Google. **Ici c'est impossible** : sans connexion Google, il n'y a pas d'abonnements à
+lire, donc pas d'application. L'obstacle est structurel, pas contournable.
+
+### IzzyOnDroid : la politique sur le code produit par IA
+
+Décisif, et il vaut mieux l'écrire noir sur blanc. Leur politique dit être « fermement
+opposée aux applications créées en tout ou partie par des outils d'IA générative » et
+que les applications « vibe-codées » sont rejetées. Elle admet du texte produit par un
+modèle dans la documentation, et l'usage d'un modèle pour la recherche ou le débogage,
+à condition que sa production ne finisse pas dans le code. Leur formulaire comporte un
+champ explicite sur le niveau d'assistance, et le manque de transparence est lui-même
+un motif de rejet.
+
+Ce dépôt ne satisfait pas ce critère. Le déclarer honnêtement conduit au refus ; ne pas
+le déclarer serait malhonnête et, de leur propre texte, un motif de rejet de plus.
+
+Deux obstacles secondaires s'ajoutaient de toute façon : leur règle empirique réserve
+environ 30 Mo par application, là où l'APK Expo dépasse le double, et leur principe
+veut qu'il n'y ait « pas de composants propriétaires », tolérés seulement s'ils sont
+essentiels au fonctionnement.
+
+### Ce qui reste
+
+| Voie | Ce qu'elle exige | Gatekeeper |
+| --- | --- | --- |
+| **Play Store** | Fiche complète, déclarations, build de production | Google |
+| **APK sur dahu-concept.fr** | Rien d'autre que le fichier et un lien | aucun |
+| **Obtainium** | Des *releases* GitHub avec l'APK attaché | aucun |
+
+Obtainium est une application qui installe et met à jour directement depuis les
+*releases* GitHub. Elle ne filtre rien et touche exactement le public visé par F-Droid.
+C'est aujourd'hui la seule voie « libriste » réellement ouverte à ce projet.
+
+L'APK auto-hébergé a un avantage inattendu : étant signé par **ta** clé, son empreinte
+ne change pas, et le client OAuth de la clé EAS suffit.
