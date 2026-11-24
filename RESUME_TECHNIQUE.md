@@ -226,17 +226,26 @@ plutôt que par `git checkout`, qui emporterait au passage les dépendances ajou
 
 ## Risques ouverts
 
-1. **Règles développeur YouTube.** Instruit en détail le 21/11/2026 dans
-   `docs/regles-youtube.md`. Trois points d'exposition, et le choix hybride n'en est
-   pas la parade : il en est le premier. Le guide interdit de fusionner des données API
-   avec d'autres données, or l'application mêle abonnements et durées venus de l'API
-   avec des vidéos venues des flux RSS, sans distinction visible. S'y ajoutent la
-   question de la « valeur indépendante » — l'argument de vente est surtout soustractif
-   — et deux modifications du lecteur (`fs: 0`, déchargement des sous-titres) qui
-   suppriment des fonctions standard. Seule la troisième se corrige facilement.
-   Sanctions prévues : jusqu'à la fermeture du compte Google associé. Une demande
-   d'*API Compliance Audit* permet de poser la question avant de publier. Sans
-   conséquence pour un usage personnel.
+1. **Règles développeur YouTube.** Instruit en détail dans `docs/regles-youtube.md`.
+   Trois points d'exposition, et le choix hybride n'en est pas la parade : il en est le
+   premier. État au 24/11/2026 :
+   - *Modifications du lecteur* — **corrigé.** `unloadModule('captions')` retiré le
+     21/11 : il supprimait la possibilité même d'activer les sous-titres. `fs: 0` est
+     conservé et défendable, les autres paramètres sont documentés par Google.
+   - *Fusion API / RSS* — **atténué.** Le guide interdit de fusionner des données API
+     avec d'autres données et exige, quand elles sont présentées côte à côte, que la
+     différence soit claire pour l'utilisateur. L'écran de réglages énonce désormais la
+     provenance de chaque donnée. Une lecture stricte viserait la fusion elle-même :
+     la question est posée franchement dans la demande d'audit.
+   - *Valeur indépendante* — **ouvert.** L'argument de vente est surtout soustractif.
+     C'est une question de produit, tranchée par un examinateur et non par une règle.
+
+   Sanctions prévues : jusqu'à la fermeture du compte Google associé, la sanction
+   réaliste pour un service non commercial étant la réduction ou la révocation du
+   quota. Sans conséquence pour un usage personnel. La demande d'*API Compliance Audit*
+   est rédigée et prête dans `docs/demande-audit-youtube.md` ; attention, cette voie
+   n'est pas neutre — un audit peut échouer, et le formulaire n'a pas de file pour qui
+   vient seulement poser la question.
 2. **Nom et marque.** « YouTube » ne peut pas figurer dans le nom de l'application
    ni dans son icône. D'où « Mon Flux ».
 3. **Compte Apple Developer** obligatoire pour installer sur l'iPhone (99 €/an).

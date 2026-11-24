@@ -161,9 +161,22 @@ Les corrections visées sont, par ordre d'efficacité :
 3. renforcer la valeur ajoutée par des fonctions qui n'existent pas chez YouTube, pour
    que l'argument ne soit plus seulement soustractif.
 
-Les deux dernières ne sont **pas** engagées pour l'instant, et c'est délibéré :
-démonter une architecture qui fonctionne sur la foi d'une interprétation serait
-prématuré. C'est précisément ce que l'audit doit trancher.
+Mise à jour du 24/11 : le point 2 a été **atténué** sans démonter l'architecture.
+L'écran de réglages énonce désormais explicitement la provenance des données —
+abonnements et durées depuis l'API, vidéos depuis les flux RSS publics, cache YouTube
+effacé à 30 jours, données de lecture locales. Le texte des règles demande que « la
+différence soit claire pour l'utilisateur » : c'est cette obligation-là qui est
+satisfaite. Le flux n'a pas été couvert de badges, l'exigence portant sur la clarté et
+non sur un marquage par ligne.
+
+Cela ne tranche pas tout : une lecture stricte de *« don't merge or combine »* viserait
+la fusion elle-même, pas son affichage. D'où la question posée franchement dans la
+demande d'audit. Renoncer aux flux RSS reste possible et coûterait du quota ; on ne
+démonte pas une architecture qui fonctionne sur la foi d'une interprétation avant
+d'avoir la réponse.
+
+Le point 3 n'est pas engagé : c'est une question de produit, pas de conformité
+mécanique, et elle est posée telle quelle dans la demande.
 
 ## Décision prise le 21/11/2026
 
@@ -173,6 +186,37 @@ voies sans fiche publique. Selon le retour, on ajustera, et dans le pire des cas
 renoncera à la fiche publique en conservant la distribution privée.
 
 En attendant, l'architecture reste inchangée.
+
+## Révision du 24/11/2026 : la voie de l'audit n'est pas neutre
+
+En préparant la demande, j'ai découvert que **la « porte de sortie » décrite plus haut
+n'a pas de file dédiée**. La page *Quota and Compliance Audits* ne liste que cinq
+formulaires, tous rattachés à autre chose : demande de quota, redemande après audit
+récent, appel d'un audit échoué, audit périodique, changement de contrôle. Le
+formulaire d'entrée impose de choisir entre deux motifs liés au quota, alors que
+« Mon Flux » ne demande pas de quota et reste très en dessous du plafond par défaut.
+
+Trois conséquences :
+
+- un audit **peut échouer**, et l'échec est un résultat enregistré — il existe un
+  formulaire d'appel pour cela ;
+- on convertit une incertitude d'interprétation en **verdict binaire**, sur les deux
+  points les plus interprétables du dossier ;
+- la position actuelle est tranquille : validation OAuth accordée, quota par défaut,
+  aucune question posée par Google.
+
+Cela ne rend pas la demande illégitime — les règles sanctionnent explicitement cet
+usage du formulaire. Mais le calcul du 21/11 supposait une démarche sans coût, et elle
+en a un.
+
+La décision reste **demander**, pour une raison précise : l'application est aussi une
+pièce de référence professionnelle, et une révocation après publication sur une fiche
+publique visible coûte bien plus cher qu'un refus privé obtenu avant. La différence
+avec le 21/11 est le moment : on demande **après** les corrections, pas avant. Il ne
+s'agit plus de faire juger une architecture risquée mais de faire confirmer un service
+déjà mis en conformité sur ce qui était corrigeable.
+
+Le détail, le texte à envoyer et ce qui reste à préparer : `docs/demande-audit-youtube.md`.
 
 ## Ce que je ne peux pas trancher
 

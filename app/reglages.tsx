@@ -82,6 +82,26 @@ export default function Reglages() {
 
       {erreur ? <Text style={s.erreur}>{erreur}</Text> : null}
 
+      {/*
+        Les règles développeur YouTube demandent que la différence soit claire pour
+        l'utilisateur quand des données d'autres sources sont présentées à côté des
+        données de l'API. Le flux les mêle par conception — c'est ce qui économise le
+        quota — donc la distinction est énoncée ici, explicitement.
+      */}
+      <View style={s.section}>
+        <Text style={s.titre}>Provenance des données</Text>
+        <Text style={s.explication}>
+          La liste de vos abonnements et la durée des vidéos viennent de l’API YouTube
+          Data. Les vidéos elles-mêmes sont relevées sur les flux RSS publics des
+          chaînes, sans passer par l’API.
+        </Text>
+        <Text style={s.explication}>
+          Les données YouTube sont effacées de l’appareil au bout de 30 jours. Votre
+          historique de lecture et votre liste « À regarder » sont les vôtres : ils
+          restent sur l’appareil et ne sont jamais envoyés ailleurs.
+        </Text>
+      </View>
+
       <View style={s.pied}>
         <Text style={s.mention}>Mon Flux {Constants.expoConfig?.version ?? ''}</Text>
         <Text style={s.mention}>Hugo Vial-Jaime — Dahu-Concept</Text>
@@ -105,6 +125,8 @@ const s = StyleSheet.create({
   boutonTexte: { color: T.texte, fontSize: 15, fontWeight: '600' },
   discret: { color: T.texteFaible, fontSize: 12, textAlign: 'center', marginTop: -10 },
   erreur: { color: T.accent, fontSize: 12, textAlign: 'center' },
+  section: { gap: 7, borderTopWidth: 1, borderTopColor: T.trait, paddingTop: 16 },
+  explication: { color: T.texteFaible, fontSize: 12, lineHeight: 17 },
   pied: { marginTop: 10, gap: 3 },
   mention: { color: T.texteFaible, fontSize: 11, textAlign: 'center' },
 });
