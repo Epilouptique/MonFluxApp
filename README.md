@@ -22,7 +22,8 @@ pas pour ce projet** : Google refuse son URL de retour OAuth côté iOS, et il n
 pas le SDK natif exigé côté Android. Il faut un build de développement.
 
 ```bat
-npm run verifier      :: tsc --noEmit + jest
+npm run verifier      :: tsc --noEmit + eslint + jest (56 tests)
+npm run lint          :: eslint seul
 npm run doctor        :: expo-doctor
 node tools/icones.mjs :: régénère les icônes
 ```
@@ -78,6 +79,24 @@ Lecture seule des abonnements. Historique de lecture gardé sur l'appareil, jama
 envoyé à YouTube. Les vidéos sont lues dans le lecteur officiel YouTube, intact. Pas de
 notifications, pas de téléchargement, pas de lecture en arrière-plan, pas de
 synchronisation entre appareils.
+
+## D'où viennent les données
+
+Deux sources, et l'application le dit à l'utilisateur dans ses réglages :
+
+| Donnée | Source | Conservation |
+| --- | --- | --- |
+| Liste des abonnements | API YouTube Data | 30 jours |
+| Durée et format des vidéos | API YouTube Data | 30 jours |
+| Nouvelles vidéos des chaînes | flux RSS publics des chaînes | 30 jours |
+| Historique de lecture, « À regarder » | l'utilisateur lui-même | sans limite, local |
+
+Les flux RSS portent l'essentiel du trafic, ce qui maintient la consommation à 1 à
+3 unités de quota par ouverture, loin sous le plafond de 10 000 par jour. Les données
+venues de YouTube sont effacées de l'appareil au bout de 30 jours, comme l'exigent les
+règles de l'API ; les données de lecture sont celles de l'utilisateur et restent sur
+l'appareil sans limite de durée. L'analyse complète des règles développeur YouTube,
+y compris les points qui restent à faire trancher, est dans `docs/regles-youtube.md`.
 
 ## Licence
 
