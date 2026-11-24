@@ -80,16 +80,115 @@ question posée telle quelle ci-dessous.
 
 ---
 
-## Ce que le formulaire réclame
+## Le formulaire, section par section
 
-À préparer avant de l'ouvrir :
+Relevé sur le formulaire réel le 24/11/2026
+(`support.google.com/youtube/contact/yt_api_form`), compte `dahu.concept@gmail.com`,
+dont l'accès au projet Cloud MonFlux a été vérifié.
 
-- l'entité légale (Hugo Vial-Jaime / Dahu-Concept, Gap, France) ;
-- le numéro de projet Cloud : **631781454408** (`monflux-515013`) ;
-- une justification par point de terminaison utilisé ;
-- des captures de la politique de confidentialité et du parcours OAuth ;
-- un compte de démonstration avec ses identifiants, et un moyen d'essayer
-  l'application — l'APK de la voie Obtainium peut servir à cela.
+Le formulaire ne conserve rien si l'onglet se ferme : ces réponses sont ici pour être
+recopiées, et c'est le document qui fait foi, pas l'onglet.
+
+### Section 1 — Type de demande
+
+**Effectuer un audit de conformité pour demander une augmentation de quota.**
+
+C'est le seul choix honnête. Le second motif, « conserver le quota actuel (nouvel audit
+demandé) », est réservé à qui Google a convoqué pour un ré-audit, ce qui n'est pas le
+cas. Le texte libre de la section 3 dit explicitement qu'aucun quota supplémentaire
+n'est demandé.
+
+### Section 2 — Organisation et contact
+
+| Champ | Réponse |
+| --- | --- |
+| Vous faites votre demande | En tant qu'organisation ou entité enregistrée |
+| Votre nom légal complet | Hugo Vial-Jaime |
+| Nom légal de votre organisation | Hugo Vial-Jaime (nom commercial : Dahu-Concept) |
+| Nom de la société mère | *(vide)* |
+| Site Web principal | https://dahu-concept.fr |
+| Pays | France |
+| Adresse postale | **à compléter** |
+| Ville | Gap |
+| État/Province | Hautes-Alpes |
+| Code postal | **à compléter** |
+| Taille/Type d'organisation | Développeur indépendant / Entrepreneur individuel |
+| Contact principal | Hugo Vial-Jaime — contact@dahu-concept.fr |
+| Contact technique | Identique au contact principal |
+| Contact commercial | Identique au contact principal |
+
+Un encart de cette section annonce déjà la couleur : la demande doit démontrer « une
+valeur propre et significative pour l'écosystème YouTube et ses utilisateurs ». C'est
+la question 2 ci-dessous, posée par Google avant même qu'on la pose.
+
+### Section 3 — Modèle économique
+
+| Champ | Réponse |
+| --- | --- |
+| Audience cible | Grand public |
+| Monétisation | Service sans frais (les utilisateurs ne paient pas) |
+| Représentant Google | Non, je n'ai pas de représentant Google |
+| ID propriétaire de contenu, numéros Google Ads | *(vides, sans objet)* |
+
+« Décrivez les activités de votre entreprise qui sont en lien avec YouTube »
+(5 000 caractères) : c'est le champ central. Y coller le texte prêt plus bas.
+
+### Section 4 — Client API
+
+| Champ | Réponse |
+| --- | --- |
+| Nom du Client API | Mon Flux |
+| Le nom contient-il « YouTube » ? | Non |
+| URL d'accès principale | https://github.com/Epilouptique/MonFluxApp |
+| URL des règles de confidentialité | https://dahu-concept.fr/references/mon-flux/confidentialite/ |
+| URL des conditions d'utilisation | la même page, seconde partie |
+| Accessible au public ? | **Non** |
+
+Deux points sur la dernière ligne. Elle est exacte aujourd'hui : aucune fiche de
+magasin, et aucune release GitHub encore publiée. **Si tu publies la release pour
+Obtainium avant d'envoyer, la réponse devient Oui** — l'APK serait alors téléchargeable
+par n'importe qui.
+
+Répondre « Non » fait apparaître un bloc **compte de démonstration** : nom
+d'utilisateur, **mot de passe** et URL de connexion, pour que Google puisse essayer
+l'application. À remplir par toi, je ne saisis pas de mot de passe. Il faut donc un
+compte Google jetable, abonné à quelques chaînes pour que le flux ne soit pas vide.
+
+### Section 5 — Cas d'utilisation et quota
+
+| Champ | Réponse |
+| --- | --- |
+| Combien de numéros de projet | 1 |
+| Numéro de projet Google Cloud | 631781454408 |
+| Points de terminaison | `subscriptions.list` et `videos.list`, à l'exclusion de tout autre |
+
+Cette section réclame aussi des « justificatifs requis » par projet : captures de la
+politique de confidentialité et de l'écran de consentement OAuth, aux normes de
+qualité données par le formulaire (1 280 × 720 minimum, texte lisible, barre d'adresse
+visible pour les pages web, noms de fichiers parlants).
+
+### Section 6 — Justificatifs
+
+Deux pièces obligatoires, **faites le 24/11** et rangées dans `docs/audit/` :
+
+- `architecture-mon-flux.png` — ce qui vient de l'API, ce qui vient des flux RSS, ce
+  qui reste sur l'appareil, et les 30 jours ;
+- `parcours-utilisateur-mon-flux.png` — du premier lancement à la déconnexion.
+
+Les deux font 1 600 × 900, au-dessus du minimum exigé.
+
+Note relevée sur le formulaire : « La fonctionnalité d'importation de fichiers est
+simulée. » Si les envois ne passent pas, le dire dans le texte libre et proposer les
+pièces par retour de courriel.
+
+### Section 7 — Attestations
+
+Huit cases à cocher : acceptation des conditions d'utilisation de l'API, des règles de
+confidentialité, du règlement développeur, compréhension du droit de cessation,
+attestation de véracité, consentement au traitement des données. **À cocher par toi** :
+ce sont des déclarations personnelles, pas des cases techniques.
+
+### Rappel des points de terminaison
 
 Les points de terminaison appelés, et eux seuls :
 
@@ -207,11 +306,17 @@ Aucun appel à `search.list`. Consommation typique d'une ouverture : 1 à 3 unit
    Un examinateur qui installe l'APK et lit « iPhone » dans la politique a une
    incohérence sous les yeux, et c'est exactement le genre de détail qui fait traîner
    un dossier. La page est sur dahu-concept.fr, donc à modifier côté WordPress.
-3. Prendre les captures de la politique et du parcours OAuth, le formulaire les
-   réclame.
-4. Préparer un compte de démonstration, ou indiquer que l'application ne montre que
-   les données du compte connecté et qu'un compte d'essai sera fourni sur demande.
-5. Prévoir un APK téléchargeable pour l'essai — celui de la voie Obtainium convient.
+3. Prendre les captures de la politique de confidentialité et de l'écran de
+   consentement OAuth, aux normes du formulaire : 1 280 × 720 minimum, texte lisible,
+   barre d'adresse visible, noms de fichiers parlants.
+4. **Créer le compte Google de démonstration** et l'abonner à quelques chaînes, sans
+   quoi l'examinateur ouvrira un flux vide. Ses identifiants sont à saisir par toi
+   dans la section 4.
+5. **Compléter l'adresse postale et le code postal** dans la section 2 : je ne les
+   connais pas et je ne les invente pas sur un formulaire de ce genre.
+6. Décider si la release GitHub part avant ou après l'envoi — elle change la réponse
+   à « accessible au public ».
+7. Les deux schémas obligatoires sont prêts dans `docs/audit/`.
 
 Délai de réponse : non publié par Google, et constaté long par les développeurs qui en
 témoignent. Ce n'est pas bloquant : l'application fonctionne déjà par les voies sans
