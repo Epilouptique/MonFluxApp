@@ -93,10 +93,21 @@ recopiées, et c'est le document qui fait foi, pas l'onglet.
 
 **Effectuer un audit de conformité pour demander une augmentation de quota.**
 
-C'est le seul choix honnête. Le second motif, « conserver le quota actuel (nouvel audit
-demandé) », est réservé à qui Google a convoqué pour un ré-audit, ce qui n'est pas le
-cas. Le texte libre de la section 3 dit explicitement qu'aucun quota supplémentaire
-n'est demandé.
+C'est le seul choix possible : le second motif, « conserver le quota actuel (nouvel
+audit demandé) », est réservé à qui Google a convoqué pour un ré-audit, ce qui n'est
+pas le cas.
+
+**Correction du 24/11, et elle est à l'avantage du dossier.** J'avais écrit plus haut
+que la voie n'avait pas de file pour qui ne demande pas de quota. C'est vrai du menu
+de la section 1, mais **faux du formulaire pris dans son ensemble** : la section 5
+pose, par projet, « Quel est le quota total que vous demandez ? », et la première
+réponse est **« Aucun changement / quota par défaut (10 000 points de quota) »**,
+cochée d'office. La demande peut donc être strictement honnête de bout en bout : un
+audit de conformité, sans aucune demande de quota, et le libellé de la section 1 n'est
+qu'une étiquette d'aiguillage.
+
+Cela réduit nettement le risque que j'avais signalé. Il reste qu'un audit peut
+échouer, mais on ne demande plus rien qu'on ne veuille pas.
 
 ### Section 2 — Organisation et contact
 
@@ -296,27 +307,46 @@ Aucun appel à `search.list`. Consommation typique d'une ouverture : 1 à 3 unit
 
 ---
 
-## Avant d'envoyer
+## État du formulaire au 24/11, 15 h
 
-1. Vérifié le 24/11 : le dépôt est public et le lien répond.
-2. **À corriger avant d'envoyer.** La politique de confidentialité est en ligne et dit
-   l'essentiel correctement (aucun serveur, jeton local, 30 jours de conservation,
-   renvoi aux règles de l'API), mais elle décrit encore « l'application iPhone ».
-   L'Android est maintenant fonctionnel : la page doit parler des deux plateformes.
-   Un examinateur qui installe l'APK et lit « iPhone » dans la politique a une
-   incohérence sous les yeux, et c'est exactement le genre de détail qui fait traîner
-   un dossier. La page est sur dahu-concept.fr, donc à modifier côté WordPress.
-3. Prendre les captures de la politique de confidentialité et de l'écran de
-   consentement OAuth, aux normes du formulaire : 1 280 × 720 minimum, texte lisible,
-   barre d'adresse visible, noms de fichiers parlants.
-4. **Créer le compte Google de démonstration** et l'abonner à quelques chaînes, sans
-   quoi l'examinateur ouvrira un flux vide. Ses identifiants sont à saisir par toi
-   dans la section 4.
-5. **Compléter l'adresse postale et le code postal** dans la section 2 : je ne les
-   connais pas et je ne les invente pas sur un formulaire de ce genre.
-6. Décider si la release GitHub part avant ou après l'envoi — elle change la réponse
-   à « accessible au public ».
-7. Les deux schémas obligatoires sont prêts dans `docs/audit/`.
+### Rempli et vérifié
+
+Sections 1 à 5 : motif, identité complète (adresse comprise), catégorie, taille,
+contacts, description de l'activité, audience, modèle économique, absence de
+représentant Google, nom et URL du client API, politique de confidentialité et
+conditions, « accessible au public : non », un projet, le numéro 631781454408, cas
+d'utilisation, et les deux points de terminaison — `youtube.subscriptions.list` et
+`youtube.videos.list`, à l'exclusion de tout autre. Contrôle fait : ce sont bien les
+deux seuls cochés pour le projet 1.
+
+Quota demandé : **aucun changement, quota par défaut**.
+
+### Fait hors formulaire
+
+La politique de confidentialité a été corrigée et republiée le 24/11 : elle parle
+maintenant des deux plateformes, et surtout elle ne prétend plus que le jeton est
+conservé dans le Trousseau iOS sur Android, ce qui était faux.
+
+### Ce qui reste, et qui ne peut venir que de toi
+
+1. **Le compte de démonstration** — nom d'utilisateur, mot de passe, URL de connexion,
+   plus la case de confirmation obligatoire juste en dessous. Créer un compte Google
+   jetable et l'abonner à quelques chaînes : un examinateur qui ouvre un flux vide
+   n'aura rien à examiner. Je ne saisis pas de mot de passe.
+2. **Les deux schémas à joindre** en section 6 : `docs/audit/architecture-mon-flux.png`
+   et `docs/audit/parcours-utilisateur-mon-flux.png`. Le téléversement exige un fichier
+   partagé avec la session, donc c'est à toi de les sélectionner.
+3. **Les captures** de la politique de confidentialité et de l'écran de consentement
+   OAuth, aux normes du formulaire : 1 280 × 720 minimum, texte lisible, barre
+   d'adresse visible, noms de fichiers parlants.
+4. **Les huit attestations** de la section 7 : ce sont des déclarations personnelles,
+   pas des cases techniques.
+5. **Décider si la release GitHub part avant ou après.** Elle change la réponse à
+   « accessible au public », et la faire passer à « oui » supprimerait sans doute
+   l'obligation du compte de démonstration.
+
+Attention : le formulaire ne conserve rien si l'onglet se ferme. Si cela arrive, tout
+est dans ce document pour recommencer.
 
 Délai de réponse : non publié par Google, et constaté long par les développeurs qui en
 témoignent. Ce n'est pas bloquant : l'application fonctionne déjà par les voies sans
