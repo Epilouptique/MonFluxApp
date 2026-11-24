@@ -47,4 +47,6 @@ CLAUDE.md
 .sonde.json 
 tools/journal-build.txt 
  
-tools/ecran.png 
+tools/ecran.png
+tools/message-commit.txt
+coverage/ 

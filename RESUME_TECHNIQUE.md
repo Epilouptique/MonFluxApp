@@ -244,17 +244,55 @@ plutôt que par `git checkout`, qui emporterait au passage les dépendances ajou
 
 ## Tests
 
-`npm run verifier` = `tsc --noEmit` puis `jest`. Les tests portent sur les deux endroits
-où une erreur serait silencieuse et coûteuse :
+`npm run verifier` = `tsc --noEmit`, puis `eslint .`, puis `jest`. 56 tests répartis sur
+les endroits où une erreur serait silencieuse et coûteuse :
 
 - `__tests__/rss.test.ts` — analyse du flux Atom, y compris le piège du `entry` unique
   (fast-xml-parser renvoie alors un objet et non un tableau), la miniature absente et
   le flux cassé ;
 - `__tests__/format.test.ts` — durées ISO 8601, distinction `null` (pas encore su) /
-  `0` (vidéo supprimée), seuil des Shorts, dates relatives.
+  `0` (vidéo supprimée), seuil des Shorts, dates relatives ;
+- `__tests__/youtube.test.ts` — le réessai unique sur 401 et sa garde contre la boucle
+  infinie, `quotaExceeded` distingué d'une panne ordinaire, la pagination des
+  abonnements et son garde-fou, les vidéos disparues marquées à 0 ;
+- `__tests__/sync.test.ts` — l'économie de quota : abonnements redemandés une fois par
+  jour seulement, et surtout **une réponse vide n'écrase jamais les chaînes connues**,
+  ce qui protège les abonnements d'un incident réseau ;
+- `__tests__/db.test.ts` — les combinaisons de filtres du flux et la purge à 30 jours.
 
-Rien n'est testé côté SQLite ni interface : cela demanderait des simulacres de modules
-natifs pour un bénéfice faible à ce stade.
+### SQLite est testé sur le vrai moteur
+
+`__tests__/outils/sqlite-memoire.ts` branche `expo-sqlite` sur `node:sqlite`, la base
+SQLite embarquée dans Node. Le moteur est donc le vrai et les requêtes de `src/db.ts`
+sont réellement exécutées, dialecte compris. Un simulacre de base aurait laissé passer
+une faute de SQL sans broncher — c'est précisément ce qu'on voulait éviter sur la purge,
+qui est une obligation des règles de l'API.
+
+`__tests__/outils/node-sqlite.d.ts` déclare la seule part de `node:sqlite` utilisée.
+Préféré à `@types/node`, qui ferait entrer les globales de Node dans le typage de
+l'application, où elles n'ont rien à faire.
+
+Comme `src/db.ts` garde sa connexion dans une variable de module, chaque test appelle
+`jest.resetModules()` pour repartir d'une base vierge.
+
+L'interface n'est pas testée : il faudrait un rendu React Native complet pour un
+bénéfice faible comparé au coût.
+
+### Linter
+
+`eslint.config.js`, sur `eslint-config-expo`. Deux faux positifs sont désactivés avec
+leur motif écrit sur place (ordre des imports et `require` dans les tests, tous deux
+imposés par le fonctionnement de Jest) ; les dossiers produits par une commande
+(`android/`, `ios/`, `.expo/`) sont ignorés, et `tools/` reçoit les globales Node.
+
+Sa mise en place a révélé deux défauts réels, corrigés :
+
+- `VignetteGlissante.tsx` construisait `new Animated.Value(0)` à chaque rendu dans un
+  `useRef` ; passé en `useMemo`, l'objet n'est créé qu'une fois et React n'a plus à
+  traverser une référence pendant le rendu ;
+- `ListeVideos.tsx` lisait la base sans garde d'abandon : en changeant de filtre
+  rapidement, une requête lancée plus tôt mais revenue plus tard réécrivait la liste
+  avec le résultat de l'ancien filtre. L'effet porte désormais un drapeau d'abandon.
 
 ## Icônes
 

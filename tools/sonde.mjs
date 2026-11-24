@@ -57,7 +57,8 @@ async function autoriser() {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end('<h1>Connexion acceptée</h1><p>Tu peux fermer cet onglet.</p>');
       serveur.close();
-      c ? resoudre(c) : rejeter(new Error(u.searchParams.get('error') || 'refus'));
+      if (c) resoudre(c);
+      else rejeter(new Error(u.searchParams.get('error') || 'refus'));
     });
     serveur.listen(PORT, '127.0.0.1', () => {
       console.log('→ Ouverture du navigateur pour la connexion Google…');

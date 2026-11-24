@@ -6,7 +6,7 @@
 // bibliothèque de gestes demanderait un module natif, donc un nouveau build à chaque
 // machine ; ici le déplacement passe par le pilote natif et reste fluide sans cela.
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Animated, PanResponder, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { T } from '../theme';
@@ -31,7 +31,9 @@ export default function VignetteGlissante({
   onMarquerVue,
   children,
 }: Props) {
-  const x = useRef(new Animated.Value(0)).current;
+  // useMemo et non useRef : l'objet n'est construit qu'une fois, et React n'a pas à
+  // traverser une référence pendant le rendu pour lire la valeur animée.
+  const x = useMemo(() => new Animated.Value(0), []);
   // Les libellés doivent refléter l'état courant : glisser sur une vidéo déjà
   // enregistrée la retire, c'est une bascule et non un ajout systématique.
   const actions = {

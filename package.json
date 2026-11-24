@@ -30,6 +30,8 @@
     "@react-native/jest-preset": "^0.88.1",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.3.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~58.0.4",
     "jest": "~30.5.2",
     "jest-expo": "~58.0.14",
     "typescript": "~6.0.3"
@@ -43,13 +45,17 @@
     "sonde": "node tools/sonde.mjs",
     "sonde:shorts": "node tools/shorts.mjs",
     "test": "jest",
-    "verifier": "tsc --noEmit && jest"
+    "lint": "eslint .",
+    "verifier": "tsc --noEmit && eslint . && jest"
   },
   "private": true,
   "author": "Hugo Vial-Jaime",
   "license": "MIT",
   "jest": {
     "preset": "jest-expo",
+    "setupFiles": [
+      "./node_modules/@react-native-google-signin/google-signin/jest/build/jest/setup.js"
+    ],
     "testMatch": [
       "**/__tests__/**/*.test.ts?(x)"
     ],

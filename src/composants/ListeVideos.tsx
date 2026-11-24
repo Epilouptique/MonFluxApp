@@ -37,22 +37,27 @@ export default function ListeVideos({
   const [videos, setVideos] = useState<VideoAffichee[]>([]);
   const [charge, setCharge] = useState(false);
 
-  const relire = useCallback(async () => {
-    setVideos(
-      await db.listerFlux({
+  // La lecture est asynchrone et les filtres peuvent changer avant qu'elle n'aboutisse :
+  // sans le drapeau d'abandon, une requête lancée plus tôt mais revenue plus tard
+  // réécrirait la liste avec le résultat de l'ancien filtre.
+  useEffect(() => {
+    let abandonne = false;
+    void (async () => {
+      const liste = await db.listerFlux({
         afficherShorts,
         afficherVues,
         shortsSeuls,
         chaineId,
         enregistreesSeules,
-      }),
-    );
-    setCharge(true);
-  }, [afficherShorts, afficherVues, shortsSeuls, chaineId, enregistreesSeules]);
-
-  useEffect(() => {
-    void relire();
-  }, [relire, revision]);
+      });
+      if (abandonne) return;
+      setVideos(liste);
+      setCharge(true);
+    })();
+    return () => {
+      abandonne = true;
+    };
+  }, [afficherShorts, afficherVues, shortsSeuls, chaineId, enregistreesSeules, revision]);
 
   const basculerEnregistrement = useCallback(
     async (id: string) => {
